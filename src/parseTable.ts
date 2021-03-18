@@ -4,36 +4,35 @@ import { ElementHandle } from 'puppeteer';
 
 export const parseTableFactory = (settings: FullParserSettings) => {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
+  const allowedColNamesKeys = Object.keys(settings.allowedColNames);
 
   return async (table: ElementHandle, addHeader: boolean): Promise<string[]> => {
     const headerRows: ElementHandle[] = await table.$$('thead tr');
-    const rows: ElementHandle[] = await (table.$$('tbody tr') || (await table.$$('tr')));
+    const rows: ElementHandle[] = (await table.$$('tbody tr')) || (await table.$$('tr'));
 
     if (headerRows.length === 0 && rows.length === 0) {
       return [];
     }
 
-    let header: ElementHandle;
+    let headerRow: ElementHandle;
 
-    // first row is header, they use bad HTML semantic
+    // First row is header (bad semantic)
     if (headerRows.length === 0) {
-      header = rows.shift()!;
+      headerRow = rows.shift()!;
     } else {
       if (headerRows.length > 1) {
-        console.warn('tableParser cannot handle multiple rows in header! Beware of it!');
+        console.warn('Cannot handle multiple rows in header! Beware of it!');
       }
-      header = headerRows.shift()!;
+      headerRow = headerRows.shift()!;
     }
 
-    const allowedColNames = { ...settings.allowedColNames };
-    const allowedColNamesKeys = Object.keys(settings.allowedColNames);
-    const excludedKeyIndexes: number[] = [];
+    const allowedColNamesDebug = { ...settings.allowedColNames };
 
     // Sorted by finding which was first visited
     // first is index in which we traverse the table, second is final position
     const allowedIndexes: Record<string, number> = Object.fromEntries(
       (
-        await header.$$eval(
+        await headerRow.$$eval(
           'td,th',
           // @ts-ignore
           (cells: HTMLElement[], newLine: string) => {
@@ -44,29 +43,48 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       )
         .map((text: string[], realIndex: number) => {
           const colName = settings.colFilter(text as string[], realIndex);
-          if (!Object.prototype.hasOwnProperty.call(allowedColNames, colName)) {
+          if (!Object.prototype.hasOwnProperty.call(settings.allowedColNames, colName)) {
             return null;
           }
 
-          delete allowedColNames[colName]; // for debug purpose
+          // for debug purpose!
+          delete allowedColNamesDebug[colName];
+
           return [realIndex, String(colName)];
         })
         .filter((pair: any) => pair !== null)
         .map((pair: any) => {
           const [realIndex, colName] = pair;
-
           const desiredIndex = allowedColNamesKeys.findIndex((key) => key === colName);
-          if (settings.temporaryColNames.includes(colName)) {
-            excludedKeyIndexes.push(desiredIndex);
-          }
+
           return [realIndex, desiredIndex];
         }),
     );
 
-    if (Object.keys(allowedIndexes).length !== Object.keys(settings.allowedColNames).length) {
-      console.info(`Not matched columns are following entries: `, allowedColNames);
+    if (Object.keys(allowedIndexes).length !== allowedColNamesKeys.length) {
+      console.info(`Not matched columns are following entries: `, allowedColNamesDebug);
       throw new Error('Number of filtered columns does not match to required columns count!');
     }
+
+    const excludedKeyIndexes: number[] = [];
+    const colKeyToIndexWithExcluded: Map<string, number> = new Map<string, number>();
+    extraColsMapper(allowedColNamesKeys, 'colName').forEach((key, index) => {
+      colKeyToIndexWithExcluded.set(key, index);
+      colKeyToIndexWithExcluded.set(settings.allowedColNames[key] || key, index);
+
+      if (settings.temporaryColNames.includes(key)) {
+        excludedKeyIndexes.push(index);
+      }
+    });
+
+    const getColumnIndex = (colName: string): number => {
+      const index = colKeyToIndexWithExcluded.get(colName);
+      if (index === undefined) {
+        throw new Error(`Invalid column name! '${colName}'`);
+      }
+
+      return index;
+    };
 
     const finalRows: string[] = (
       await Promise.all(
@@ -92,7 +110,7 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       )
     )
       .map((row) => extraColsMapper(row, 'data'))
-      .filter((row) => settings.rowValidator(row))
+      .filter((row) => settings.rowValidator(row, getColumnIndex))
       .map((row) =>
         row
           .map(settings.colParser)

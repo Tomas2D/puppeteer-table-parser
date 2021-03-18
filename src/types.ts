@@ -10,15 +10,15 @@ export interface ParserSettingsOptional {
   withHeader: boolean;
   csvSeparator: string;
   newLine: string;
-  rowValidator: (row: string[]) => boolean;
+  rowValidator: (row: string[], getColumnIndex: (colName: string) => number) => boolean;
   asArray: boolean;
+  colFilter: (elText: string[], index: number) => string;
+  colParser: (value: string, formattedIndex: number) => string;
 }
 
 export interface ParserSettings extends Partial<ParserSettingsOptional> {
   selector: string;
-  colFilter: (elText: string[], index: number) => string;
-  colParser: (value: string, formattedIndex: number) => string;
-  allowedColNames: Record<string, string>;
+  readonly allowedColNames: Record<string, string>;
 }
 
 export type FullParserSettings = Required<ParserSettings>;

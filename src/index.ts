@@ -11,6 +11,8 @@ const defaultSettings: ParserSettingsOptional = {
   rowValidator: () => true,
   asArray: false,
   temporaryColNames: [],
+  colFilter: (elText) => elText.join(' '),
+  colParser: (value) => value.trim(),
 };
 
 export async function tableParser(
