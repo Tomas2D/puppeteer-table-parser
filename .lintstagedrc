@@ -1,0 +1,4 @@
+{
+  "(src|test)/**/*.(ts|tsx)": "yarn lint",
+  "(src|test)/**/*.(ts|tsx)": "yarn prettier"
+}
