@@ -13,7 +13,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "changelog": "gitmoji-changelog",
     "release": "yarn version",
-    "version": "yarn readme && yarn changelog && code --wait CHANGELOG.md && git add README.md CHANGELOG.md"
+    "version": "yarn readme && yarn changelog && code --wait CHANGELOG.md && git add README.md CHANGELOG.md",
+    "prepublishOnly": "yarn build"
   },
   "peerDependencies": {
     "puppeteer": "^8.0.0"
