@@ -4,7 +4,7 @@ Library to make parsing website tables much easier!
 When you are using `puppeteer` for scrapping websites and web application, you will find out that parsing tables consistently is not that easy.
 This library brings you abstraction between `puppeteer` and `page context`.
 
-##This library solves following issues:
+## This library solves following issues:
 
 - ✨ Parsing columns by their name.
 - ✨ Respect the defined order of columns.
