@@ -1,18 +1,17 @@
 # 🕸 🕷 puppeteer-table-parser 
 
-Library for make parsing website tables much more easy!
-When you are using for `puppeteer` for scrapping websites and web 
-application you will find out, that parsing tables consistently is not that easy. This library brings you abstraction between 
-`puppeter` and `page` context.
+Library to make parsing website tables much easier! 
+When you are using `puppeteer` for scrapping websites and web application, you will find out that parsing tables consistently is not that easy.
+This library brings you abstraction between `puppeteer` and `page context`.
 
 ##This library solves following issues:
 
 - ✨ Parsing columns by their name.
-- ✨ Keeps ordering of columns.
+- ✨ Respect the defined order of columns.
 - ✨ Appending custom columns with custom data.
 - ✨ Custom sanitization of data in cells.
 - ✨ Merge data from two independent tables into one structure.
-- ✨ Returns output as array of rows or as CSV string.
+- ✨ Handles invalid HTML structure
 - ✨ And much more!
 
 ## How to use it?
@@ -36,7 +35,6 @@ return await tableParser(page, {
       'car-name': 'car',
       'car-engine': 'engine',
       'horse-powers': 'hp',
-      'manufacture-year': 'year',
     },
     extraCols: [
       {
@@ -48,9 +46,11 @@ return await tableParser(page, {
 });
 ```
 
+For more, look at `test` folder! 🙈
+
 ## TODO
 
 - [ ] Add more examples
-- [ ] Add tests
+- [X] Add tests
 - [ ] Show merging table structures
 - [ ] Describe interfaces
