@@ -1,8 +1,12 @@
 {
   "name": "puppeteer-table-parser",
   "description": "Library to make parsing website tables much easier!",
-  "keywords": ["puppeteer", "puppeteer table parser", "parsing html tables"],
-  "version": "1.0.0",
+  "keywords": [
+    "puppeteer",
+    "puppeteer table parser",
+    "parsing html tables"
+  ],
+  "version": "1.0.1",
   "main": "lib/index.js",
   "types": "lib",
   "repository": "git@github.com:Tomas2D/puppeteer-table-parser.git",
@@ -15,10 +19,9 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "changelog": "gitmoji-changelog",
     "release": "yarn version",
-    "version": "yarn readme && yarn changelog && code --wait CHANGELOG.md && git add README.md CHANGELOG.md",
+    "version": "yarn changelog && code --wait CHANGELOG.md && git add README.md CHANGELOG.md",
     "prepublishOnly": "yarn build",
-    "test": "jest",
-    "postinstall": "./scripts/fix-gitmoji-changelog-node-preset"
+    "test": "jest"
   },
   "peerDependencies": {
     "puppeteer": "^8.0.0"
