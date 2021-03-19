@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="1.0.2"></a>
+## 1.0.2 (2021-03-19)
+
+### Changed
+
+- 🔧 Update package.json scripts [[aa3b6e3](https://github.com/Tomas2D/puppeteer-table-parser/commit/aa3b6e3fd5a80613154d9ad32081f8b1f65fc040)]
+- 🔧 Update build script [[7796494](https://github.com/Tomas2D/puppeteer-table-parser/commit/77964940840ddea7683b9ffabb0686c56010116b)]
+
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2021-03-19)
 

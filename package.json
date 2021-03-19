@@ -6,7 +6,7 @@
     "puppeteer table parser",
     "parsing html tables"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "lib/index.js",
   "types": "lib",
   "repository": "git@github.com:Tomas2D/puppeteer-table-parser.git",
