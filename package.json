@@ -10,7 +10,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rm -Rf lib; tsc -p tsconfig.build.json",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "changelog": "gitmoji-changelog",
