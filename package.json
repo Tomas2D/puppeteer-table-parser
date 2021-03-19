@@ -17,7 +17,8 @@
     "release": "yarn version",
     "version": "yarn readme && yarn changelog && code --wait CHANGELOG.md && git add README.md CHANGELOG.md",
     "prepublishOnly": "yarn build",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "./scripts/fix-gitmoji-changelog-node-preset"
   },
   "peerDependencies": {
     "puppeteer": "^8.0.0"

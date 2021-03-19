@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Patching gitmoji-changelog preset is needed from two reasons:
+#  1. There is a bug at usage of read-pkg-up (https://github.com/frinyvonnick/gitmoji-changelog/pull/192)
+#  2. Tool currently does not support monorepos
+patch --forward --silent node_modules/gitmoji-changelog/src/presets/node.js scripts/fix-gitmoji-preset.patch

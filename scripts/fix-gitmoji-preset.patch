@@ -1,0 +1,17 @@
+5c6,7
+<     const packageInfo = await readPkgUp()
+---
+>     const cwd = require('path').resolve(__dirname, '../../../../packages/lokse');
+>     const packageInfo = await readPkgUp({cwd })
+7c9
+<     if (!packageInfo.pkg) throw Error('Empty package.json')
+---
+>     if (!packageInfo.packageJson) throw Error('Empty package.json')
+10,12c12,14
+<       name: packageInfo.pkg.name,
+<       version: packageInfo.pkg.version,
+<       description: packageInfo.pkg.description,
+---
+>       name: packageInfo.packageJson.name,
+>       version: packageInfo.packageJson.version,
+>       description: packageInfo.packageJson.description,
