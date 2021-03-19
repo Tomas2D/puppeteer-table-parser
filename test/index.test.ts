@@ -183,9 +183,10 @@ describe('Basic parsing', () => {
       ],
       rowValidator: (row: string[], getColumnIndex) => {
         const favoriteIndex = getColumnIndex('favorite');
+        const horsePowerIndex = getColumnIndex('hp');
         const nameIndex = getColumnIndex('car');
 
-        if (row[nameIndex].toLowerCase().includes('alfa romeo')) {
+        if (row[nameIndex].includes('Alfa Romeo') || Number(row[horsePowerIndex]) > 300) {
           row[favoriteIndex] = 'YES';
         } else {
           row[favoriteIndex] = 'NO';
@@ -197,7 +198,7 @@ describe('Basic parsing', () => {
 
     expect(data).toMatchInlineSnapshot(`
       "favorite;year;car
-      NO;2015;Audi S5
+      YES;2015;Audi S5
       YES;2020;Alfa Romeo Giulia
       NO;2017;BMW X3"
     `);
