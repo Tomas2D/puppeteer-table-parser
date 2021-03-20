@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.1.0"></a>
+## 1.1.0 (2021-03-20)
+
+### Added
+
+- ✅ Add test for merger util [[12126a1](https://github.com/Tomas2D/puppeteer-table-parser/commit/12126a1f35dd695802a2877f3b03987eee68c655)]
+- ✨ Add merger parser settings util [[a7c5f5f](https://github.com/Tomas2D/puppeteer-table-parser/commit/a7c5f5f60c1b2c5d67ec1fbb66b4a126e6704daa)]
+
+### Changed
+
+- 💬 Update README [[bb4bf5e](https://github.com/Tomas2D/puppeteer-table-parser/commit/bb4bf5e9af647131b33b17f530b24c3b9e9d621d)]
+
+
 <a name="1.0.3"></a>
 ## 1.0.3 (2021-03-20)
 
