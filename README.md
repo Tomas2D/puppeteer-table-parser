@@ -14,6 +14,15 @@ This library brings you abstraction between `puppeteer` and `page context`.
 - ✨ Handles invalid HTML structure
 - ✨ And much more!
 
+## Installation
+
+```
+yarn add puppeteer-table-parser
+```
+```
+npm install puppeteer-table-parser
+```
+
 ## Examples
 
 > All data came from the HTML page, which you can find in `test/assets/1.html`.
