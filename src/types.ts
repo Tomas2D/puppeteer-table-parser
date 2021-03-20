@@ -24,3 +24,9 @@ export interface ParserSettings extends Partial<ParserSettingsOptional> {
 export type FullParserSettings = Required<ParserSettings>;
 
 export type ExtraColsMapper = (row: string[], key: keyof ExtraCol) => string[];
+
+export interface MergeParserSettings {
+  allowedColNames: FullParserSettings['allowedColNames'];
+  extraCols: FullParserSettings['extraCols'];
+  temporaryColNames: FullParserSettings['temporaryColNames'];
+}
