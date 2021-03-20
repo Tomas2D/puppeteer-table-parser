@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="1.0.3"></a>
+## 1.0.3 (2021-03-20)
+
+### Fixed
+
+- 💚 Update package.json to correct publishing [[2aaa3e2](https://github.com/Tomas2D/puppeteer-table-parser/commit/2aaa3e2f5564f902d9a989bb2a3bd49ea2660cf2)]
+
+
 <a name="1.0.2"></a>
 ## 1.0.2 (2021-03-19)
 
