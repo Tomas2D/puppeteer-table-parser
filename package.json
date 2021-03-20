@@ -7,8 +7,9 @@
     "parsing html tables"
   ],
   "version": "1.0.2",
-  "main": "lib/index.js",
-  "types": "lib",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": ["lib"],
   "repository": "git@github.com:Tomas2D/puppeteer-table-parser.git",
   "author": "Tomáš Dvořák <toomas2d@gmail.com>",
   "license": "MIT",
