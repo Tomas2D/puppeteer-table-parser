@@ -2,6 +2,7 @@ import { ElementHandle, Page } from 'puppeteer';
 import { ParserSettingsOptional, ParserSettings, FullParserSettings } from './types';
 import { validateSettings } from './helpers';
 import { parseTableFactory } from './parseTable';
+import { mergeParserSettings } from './merger';
 
 const defaultSettings: ParserSettingsOptional = {
   extraCols: [],
@@ -63,3 +64,5 @@ export async function tableParser<T extends ParserSettings>(
 }
 
 export default tableParser;
+
+export { mergeParserSettings };
