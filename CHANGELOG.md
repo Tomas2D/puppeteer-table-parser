@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="1.1.1"></a>
+## 1.1.1 (2021-06-11)
+
+### Changed
+
+- 🎨 Add export for mergeParserSettings [[43c40e5](https://github.com/Tomas2D/puppeteer-table-parser/commit/43c40e546b08ca85288107785bd01393fed926b7)]
+
+
 <a name="1.1.0"></a>
 ## 1.1.0 (2021-03-20)
 
