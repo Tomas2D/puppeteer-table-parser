@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="1.1.2"></a>
+## 1.1.2 (2021-07-04)
+
+### Changed
+
+- 🔧 Update peer dependencies [[71f0d8e](https://github.com/Tomas2D/puppeteer-table-parser/commit/71f0d8edb89db3014fe7eb5df633c3957f9163e3)]
+
+
 <a name="1.1.1"></a>
 ## 1.1.1 (2021-06-11)
 
