@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.1.3"></a>
+## 1.1.3 (2021-08-09)
+
+### Changed
+
+- ⬆️ Update dependencies [[3014809](https://github.com/Tomas2D/puppeteer-table-parser/commit/3014809fce5279d5676b067526ffe74b89c04eb7)]
+- ⬆️ Bump browserslist from 4.16.3 to 4.16.7 [[77c73fe](https://github.com/Tomas2D/puppeteer-table-parser/commit/77c73fe1d84f08cba6089e567da692e992dadf62)]
+- ⬆️ Bump ssri from 6.0.1 to 6.0.2 [[8a1ad0b](https://github.com/Tomas2D/puppeteer-table-parser/commit/8a1ad0be1a019275011a130e485904e3b79ac414)]
+- ⬆️ Bump ws from 7.4.4 to 7.5.3 [[89bdfda](https://github.com/Tomas2D/puppeteer-table-parser/commit/89bdfda75bce633c467e8d390a6be61c948e8d52)]
+- ⬆️ Bump tar from 4.4.13 to 4.4.15 [[a5faafc](https://github.com/Tomas2D/puppeteer-table-parser/commit/a5faafc8aa860b45dc2fb6b58388a8fffbb39fc0)]
+- ⬆️ Bump hosted-git-info from 2.8.8 to 2.8.9 [[4e10107](https://github.com/Tomas2D/puppeteer-table-parser/commit/4e10107cac67b834d612cad7255f29a14a6f6456)]
+
+
 <a name="1.1.2"></a>
 ## 1.1.2 (2021-07-04)
 
