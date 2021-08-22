@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: 'install:linux:dep'
+        run: sudo apt-get install -y libgbm-dev
+      - name: 'yarn:install'
+        run: yarn install
+        env:
+          CI: true
+      - name: build
+        run: yarn build
+      - name: test
+        run: yarn test
