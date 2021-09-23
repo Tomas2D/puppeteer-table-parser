@@ -12,7 +12,7 @@ describe('Basic parsing', () => {
   beforeAll(async () => {
     server = await createServer();
     browser = await launch({
-      headless: true,
+      headless: false,
     });
     page = await browser.newPage();
   });
