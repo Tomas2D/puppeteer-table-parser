@@ -45,6 +45,9 @@
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.3"
   },
+  "resolutions": {
+    "set-value": "^2.0.1"
+  },
   "jest": {
     "preset": "ts-jest",
     "moduleFileExtensions": [
