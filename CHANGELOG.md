@@ -1,5 +1,32 @@
 # Changelog
 
+<a name="1.1.4"></a>
+## 1.1.4 (2021-10-11)
+
+### Added
+
+- ✅ Run test in non-headless mode [[887eb2c](https://github.com/Tomas2D/puppeteer-table-parser/commit/887eb2c7b399a1f87f9dfd70c0d44a10da21c841)]
+
+### Changed
+
+- ⬆️ Upgrade deps to fix audit [[a0486ed](https://github.com/Tomas2D/puppeteer-table-parser/commit/a0486edfb3f06d6bd4436183a6cd01c7e688cc63)]
+- ⬆️ Upgrade deps to pass audit [[d6adf53](https://github.com/Tomas2D/puppeteer-table-parser/commit/d6adf53fd22c308692e682b55256e6a7ca4c920e)]
+- ⬆️ Upgrade deps [[a73ecbc](https://github.com/Tomas2D/puppeteer-table-parser/commit/a73ecbc43dc430e152a51b083fdf890b650de5f2)]
+- ⬆️ Upgrade deps [[8f3bc03](https://github.com/Tomas2D/puppeteer-table-parser/commit/8f3bc032cca092149fed962f1b572271070fdfaf)]
+
+### Fixed
+
+- 💚 Disable running tests in CI [[aa9b073](https://github.com/Tomas2D/puppeteer-table-parser/commit/aa9b073f0d106b5fefe6b2268fbc851857f25793)]
+
+### Security
+
+- 🔒 Fix prototype Pollution in set-value [[a737edf](https://github.com/Tomas2D/puppeteer-table-parser/commit/a737edf63effc21b0f9778f4a1f7d7c5dc780ca1)]
+
+### Miscellaneous
+
+-  👷 Add GitHub workflow [[4b59fb9](https://github.com/Tomas2D/puppeteer-table-parser/commit/4b59fb9ce3a71c4bf85ec997da76a980f13855ac)]
+
+
 <a name="1.1.3"></a>
 ## 1.1.3 (2021-08-09)
 
