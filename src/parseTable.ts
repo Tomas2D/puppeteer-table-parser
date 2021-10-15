@@ -113,7 +113,7 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       .filter((row) => settings.rowValidator(row, getColumnIndex))
       .map((row) =>
         row
-          .map(settings.colParser)
+          .map((cell, index) => settings.colParser(cell, index, getColumnIndex))
           .filter((_, index) => !excludedKeyIndexes.includes(index))
           .join(settings.csvSeparator),
       );
