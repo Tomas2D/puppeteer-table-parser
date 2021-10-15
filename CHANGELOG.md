@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="1.1.5"></a>
+## 1.1.5 (2021-10-15)
+
+### Added
+
+- ✨ Add getColumnIndex support to colParser [[c4cef1a](https://github.com/Tomas2D/puppeteer-table-parser/commit/c4cef1a98660983fcec2589365b5a29090b4ae70)]
+
+
 <a name="1.1.4"></a>
 ## 1.1.4 (2021-10-11)
 
