@@ -1,5 +1,19 @@
 # Changelog
 
+<a name="1.2.0"></a>
+## 1.2.0 (2021-11-04)
+
+### Added
+
+- ✨ Handle duplicated column names [[1dfc2ac](https://github.com/Tomas2D/puppeteer-table-parser/commit/1dfc2ace2f6fda271acb4f24fcbfa4f04fb6c840)]
+- ✅ Fix launching Puppeteer in Jest TS needs to be fixed on 4.3.x [[061fe87](https://github.com/Tomas2D/puppeteer-table-parser/commit/061fe871b9146a4544c850a5f27b5665f2c4b962)]
+
+### Changed
+
+- ♻️ Separate logic for mutating row values Add rowTransform function to options [[f380d3d](https://github.com/Tomas2D/puppeteer-table-parser/commit/f380d3daf0f4f90f603dec21b16d1f0964dc90e2)]
+- 🔧 Update eslint config [[d08fecf](https://github.com/Tomas2D/puppeteer-table-parser/commit/d08fecf4a7bebb2d4a1b4db9ac50ff586bf2daf2)]
+
+
 <a name="1.1.5"></a>
 ## 1.1.5 (2021-10-15)
 
