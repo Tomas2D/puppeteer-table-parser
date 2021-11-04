@@ -37,10 +37,16 @@ export const validateSettings = (settings: Required<ParserSettings>): void => {
     throw new Error('One or more `extraCols` have same position!');
   }
 
-  // Validate temporaryCols
   for (const colName of temporaryColNames) {
     if (!Object.prototype.hasOwnProperty.call(allowedColNames, colName)) {
       throw new Error(`Entry ${colName} in 'temporaryColNames' must exists in 'allowedColNames'!`);
+    }
+  }
+
+  const allowedColNamesValues = Object.values(allowedColNames);
+  for (const { colName } of extraCols) {
+    if (allowedColNamesValues.includes(colName)) {
+      throw new Error(`'${colName}' in 'extraCols' has same name as column in 'allowColNames'!`);
     }
   }
 };
