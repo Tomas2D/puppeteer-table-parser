@@ -111,12 +111,13 @@ export const parseTableFactory = (settings: FullParserSettings) => {
     )
       .map((row) => extraColsMapper(row, 'data'))
       .filter((row) => settings.rowValidator(row, getColumnIndex))
-      .map((row) =>
-        row
-          .map((cell, index) => settings.colParser(cell, index, getColumnIndex))
+      .map((row) => row.map((cell, index) => settings.colParser(cell, index, getColumnIndex)))
+      .map((row) => {
+        settings.rowTransform(row, getColumnIndex);
+        return row
           .filter((_, index) => !excludedKeyIndexes.includes(index))
-          .join(settings.csvSeparator),
-      );
+          .join(settings.csvSeparator);
+      });
 
     if (addHeader) {
       const headerRow = Object.values(settings.allowedColNames);

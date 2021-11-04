@@ -38,7 +38,8 @@ describe('Basic parsing', () => {
       "car;hp;year
       Audi S5;332;2015
       Alfa Romeo Giulia;500;2020
-      BMW X3;215;2017"
+      BMW X3;215;2017
+      Skoda Octavia;120;2012"
     `);
   });
 
@@ -64,7 +65,8 @@ describe('Basic parsing', () => {
       "car;hp;year
       Audi S5;332;2015
       Alfa Romeo Giulia;500;2020
-      BMW X3;215;2017"
+      BMW X3;215;2017
+      Skoda Octavia;120;2012"
     `);
   });
 
@@ -84,7 +86,8 @@ describe('Basic parsing', () => {
       "year;car;hp
       2015;Audi S5;332
       2020;Alfa Romeo Giulia;500
-      2017;BMW X3;215"
+      2017;BMW X3;215
+      2012;Skoda Octavia;120"
     `);
   });
 
@@ -134,7 +137,8 @@ describe('Basic parsing', () => {
 
     expect(data).toMatchInlineSnapshot(`
       "car;year
-      BMW X3;2017"
+      BMW X3;2017
+      Skoda Octavia;2012"
     `);
   });
 
@@ -159,7 +163,8 @@ describe('Basic parsing', () => {
       "date;car
       2021-03-15;Audi S5
       2021-03-15;Alfa Romeo Giulia
-      2021-03-15;BMW X3"
+      2021-03-15;BMW X3
+      2021-03-15;Skoda Octavia"
     `);
   });
 
@@ -182,23 +187,24 @@ describe('Basic parsing', () => {
         },
       ],
       rowValidator: (row: string[], getColumnIndex) => {
-        const favoriteIndex = getColumnIndex('favorite');
         const horsePowerIndex = getColumnIndex('hp');
+        return Number(row[horsePowerIndex]) > 150;
+      },
+      rowTransform: (row: string[], getColumnIndex) => {
         const nameIndex = getColumnIndex('car');
+        const favoriteIndex = getColumnIndex('favorite');
 
-        if (row[nameIndex].includes('Alfa Romeo') || Number(row[horsePowerIndex]) > 300) {
+        if (row[nameIndex].includes('Alfa Romeo')) {
           row[favoriteIndex] = 'YES';
         } else {
           row[favoriteIndex] = 'NO';
         }
-
-        return true;
       },
     });
 
     expect(data).toMatchInlineSnapshot(`
       "favorite;year;car
-      YES;2015;Audi S5
+      NO;2015;Audi S5
       YES;2020;Alfa Romeo Giulia
       NO;2017;BMW X3"
     `);

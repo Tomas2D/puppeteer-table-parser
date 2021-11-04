@@ -45,6 +45,7 @@ car;hp;year
 Audi S5;332;2015
 Alfa Romeo Giulia;500;2020
 BMW X3;215;2017
+Skoda Octavia;120;2012
 ```
 
 **Basic example** with custom column name parsing:
@@ -71,6 +72,7 @@ car;hp;year
 Audi S5;332;2015
 Alfa Romeo Giulia;500;2020
 BMW X3;215;2017
+Skoda Octavia;120;2012
 ```
 
 **Basic example** with row validation and using temporary column.
@@ -84,9 +86,8 @@ await tableParser(page, {
     'Horse Powers': 'hp',
   },
   temporaryColNames: ['Horse Powers'],
-  rowValidator: (row: string[], getColumnIndex: (colName: string) => number) => {
+  rowValidator: (row: string[], getColumnIndex) => {
     const powerIndex = getColumnIndex('hp');
-
     return Number(row[powerIndex]) < 250;
   },
 });
@@ -95,6 +96,7 @@ await tableParser(page, {
 ```csv
 car;year
 BMW X3;2017
+Skoda Octavia;2012
 ```
 
 **Advanced example:**
@@ -114,22 +116,23 @@ await tableParser(page, {
   extraCols: [
     {
       colName: 'favorite',
-      data: '', // we will edit the data on fly
+      data: '',
       position: 0,
     },
   ],
   rowValidator: (row: string[], getColumnIndex) => {
-    const favoriteIndex = getColumnIndex('favorite');
     const horsePowerIndex = getColumnIndex('hp');
+    return Number(row[horsePowerIndex]) > 150;
+  },
+  rowTransform: (row: string[], getColumnIndex) => {
     const nameIndex = getColumnIndex('car');
+    const favoriteIndex = getColumnIndex('favorite');
 
-    if (row[nameIndex].includes('Alfa Romeo') || Number(row[horsePowerIndex]) > 300) {
+    if (row[nameIndex].includes('Alfa Romeo')) {
       row[favoriteIndex] = 'YES';
     } else {
       row[favoriteIndex] = 'NO';
     }
-
-    return true;
   },
 });
 ```
@@ -138,6 +141,7 @@ await tableParser(page, {
 favorite;year;car
 NO;2015;Audi S5
 YES;2020;Alfa Romeo Giulia
+NO;2017;BMW X3
 ```
 
 For more, look at `test` folder! 🙈

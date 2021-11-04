@@ -13,6 +13,7 @@ export interface ParserSettingsOptional {
   csvSeparator: string;
   newLine: string;
   rowValidator: (row: string[], getColumnIndex: GetColumnIndexType) => boolean;
+  rowTransform: (row: string[], getColumnIndex: GetColumnIndexType) => void;
   asArray: boolean;
   colFilter: (elText: string[], index: number) => string;
   colParser: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string;

@@ -10,6 +10,7 @@ const defaultSettings: ParserSettingsOptional = {
   csvSeparator: ';',
   newLine: '\n',
   rowValidator: () => true,
+  rowTransform: () => {},
   asArray: false,
   temporaryColNames: [],
   colFilter: (elText) => elText.join(' '),
@@ -30,7 +31,9 @@ export async function tableParser<T extends ParserSettings>(
   validateSettings(settings);
 
   const tables: ElementHandle[] = await Promise.all(
-    (await page.$$(settings.selector)).filter(async (table: ElementHandle) => {
+    (
+      await page.$$(settings.selector)
+    ).filter(async (table: ElementHandle) => {
       const nodeName: string = await table.evaluate((table: HTMLElement) => table.nodeName);
       if (nodeName.toUpperCase() !== 'TABLE') {
         console.warn('Invalid selector! Element is not table!');
