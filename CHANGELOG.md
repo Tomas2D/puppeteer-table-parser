@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="1.3.0"></a>
+## 1.3.0 (2021-12-13)
+
+### Added
+
+- ✨ Add support for returning row values as array [[4dbd821](https://github.com/Tomas2D/puppeteer-table-parser/commit/4dbd821bcf1b3f85f74496e5d1cfd7aa16827a84)]
+
+### Changed
+
+- 🔧 Run prettier on lint-staged [[1e9fdfe](https://github.com/Tomas2D/puppeteer-table-parser/commit/1e9fdfeb1a59360bd2a98a1d349574d3f552ecbd)]
+
+### Miscellaneous
+
+- 📝 Update README [[1eeeb98](https://github.com/Tomas2D/puppeteer-table-parser/commit/1eeeb98e19b06027108a5eb2f82fa75527e3b764)]
+- 💡 Remove unused comments [[5451be3](https://github.com/Tomas2D/puppeteer-table-parser/commit/5451be3ed63252cfe52f6139ebf8ad1ff3c6dbde)]
+
+
 <a name="1.2.0"></a>
 ## 1.2.0 (2021-11-04)
 
