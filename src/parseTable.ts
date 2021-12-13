@@ -29,7 +29,7 @@ export const parseTableFactory = (settings: FullParserSettings) => {
     const allowedColNamesDebug = { ...settings.allowedColNames };
 
     // Sorted by finding which was first visited
-    // first is index in which we traverse the table, second is final position
+    // is index in which we traverse the table, second is final position
     const allowedIndexes: Record<string, number> = Object.fromEntries(
       (
         await headerRow.$$eval(
@@ -101,7 +101,7 @@ export const parseTableFactory = (settings: FullParserSettings) => {
                     const indexA = allowedIndexes[a[1] as number];
                     const indexB = allowedIndexes[b[1] as number];
 
-                    return indexA - indexB; // ASC
+                    return indexA - indexB;
                   })
                   .map(([cell]): string => (cell as HTMLElement).innerText);
               },

@@ -8,7 +8,7 @@ export const extraColsMapperFactory = (extraCols: ExtraCol[]): ExtraColsMapper =
   const withPos: Required<ExtraCol[]> = extraCols
     .filter((extraCol) => extraCol.position !== undefined)
     .sort((a, b) => {
-      return a.position! - b.position!; // ASC
+      return a.position! - b.position!;
     });
 
   // Append cols without position
