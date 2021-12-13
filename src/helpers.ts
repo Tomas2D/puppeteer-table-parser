@@ -49,4 +49,10 @@ export const validateSettings = (settings: Required<ParserSettings>): void => {
       throw new Error(`'${colName}' in 'extraCols' has same name as column in 'allowColNames'!`);
     }
   }
+
+  if (!settings.asArray && settings.rowValuesAsArray) {
+    throw new Error(
+      `'rowValuesAsArray' can be set to true only and only if 'asArray' is also true!`,
+    );
+  }
 };

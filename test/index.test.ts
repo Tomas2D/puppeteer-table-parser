@@ -43,6 +43,88 @@ describe('Basic parsing', () => {
     `);
   });
 
+  it('Return data as array with strings inside', async () => {
+    await page.goto(`${getBaseUrl()}/1.html`);
+
+    const data: string[] = await tableParser(page, {
+      asArray: true,
+      selector: 'table',
+      allowedColNames: {
+        'Car Name': 'car',
+        'Horse Powers': 'hp',
+        'Manufacture Year': 'year',
+      },
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      Array [
+        "car;hp;year",
+        "Audi S5;332;2015",
+        "Alfa Romeo Giulia;500;2020",
+        "BMW X3;215;2017",
+        "Skoda Octavia;120;2012",
+      ]
+    `);
+  });
+
+  it('Return data as array with arrays inside', async () => {
+    await page.goto(`${getBaseUrl()}/1.html`);
+
+    const data: string[][] = await tableParser(page, {
+      asArray: true,
+      rowValuesAsArray: true,
+      selector: 'table',
+      allowedColNames: {
+        'Car Name': 'car',
+        'Horse Powers': 'hp',
+        'Manufacture Year': 'year',
+      },
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "car",
+          "hp",
+          "year",
+        ],
+        Array [
+          "Audi S5",
+          "332",
+          "2015",
+        ],
+        Array [
+          "Alfa Romeo Giulia",
+          "500",
+          "2020",
+        ],
+        Array [
+          "BMW X3",
+          "215",
+          "2017",
+        ],
+        Array [
+          "Skoda Octavia",
+          "120",
+          "2012",
+        ],
+      ]
+    `);
+  });
+
+  it('Throw error with invalid options', () => {
+    expect(
+      tableParser(page, {
+        selector: 'table',
+        asArray: false,
+        rowValuesAsArray: true,
+        allowedColNames: {
+          'car-name': 'car',
+        },
+      }),
+    ).rejects.toThrowError();
+  });
+
   it('Parse webalize', async () => {
     await page.goto(`${getBaseUrl()}/1.html`);
 

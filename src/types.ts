@@ -6,7 +6,7 @@ export interface ExtraCol {
 
 export type GetColumnIndexType = (colName: string) => number;
 
-export interface ParserSettingsOptional {
+export type ParserSettingsOptional = {
   temporaryColNames: string[];
   extraCols: ExtraCol[];
   withHeader: boolean;
@@ -15,9 +15,10 @@ export interface ParserSettingsOptional {
   rowValidator: (row: string[], getColumnIndex: GetColumnIndexType) => boolean;
   rowTransform: (row: string[], getColumnIndex: GetColumnIndexType) => void;
   asArray: boolean;
+  rowValuesAsArray: boolean;
   colFilter: (elText: string[], index: number) => string;
   colParser: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string;
-}
+};
 
 export interface ParserSettings extends Partial<ParserSettingsOptional> {
   selector: string;

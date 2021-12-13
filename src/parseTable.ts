@@ -6,7 +6,7 @@ export const parseTableFactory = (settings: FullParserSettings) => {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
   const allowedColNamesKeys = Object.keys(settings.allowedColNames);
 
-  return async (table: ElementHandle, addHeader: boolean): Promise<string[]> => {
+  return async (table: ElementHandle, addHeader: boolean) => {
     const headerRows: ElementHandle[] = await table.$$('thead tr');
     const rows: ElementHandle[] = (await table.$$('tbody tr')) || (await table.$$('tr'));
 
@@ -86,26 +86,27 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       return index;
     };
 
-    const finalRows: string[] = (
+    const finalRows = (
       await Promise.all(
-        rows.map((row) =>
-          row.$$eval(
-            'td',
-            // @ts-ignore
-            (cells: HTMLElement[], allowedIndexes: Record<string, number>) => {
-              return cells
-                .map((cell, realIndex) => [cell, realIndex])
-                .filter((_, realIndex) => allowedIndexes[realIndex] !== undefined)
-                .sort((a, b) => {
-                  const indexA = allowedIndexes[a[1] as number];
-                  const indexB = allowedIndexes[b[1] as number];
+        rows.map(
+          (row): Promise<string[]> =>
+            row.$$eval(
+              'td',
+              // @ts-expect-error
+              (cells: HTMLElement[], allowedIndexes: Record<string, number>) => {
+                return cells
+                  .map((cell, realIndex) => [cell, realIndex])
+                  .filter((_, realIndex) => allowedIndexes[realIndex] !== undefined)
+                  .sort((a, b) => {
+                    const indexA = allowedIndexes[a[1] as number];
+                    const indexB = allowedIndexes[b[1] as number];
 
-                  return indexA - indexB; // ASC
-                })
-                .map(([cell]): string => (cell as HTMLElement).innerText);
-            },
-            allowedIndexes,
-          ),
+                    return indexA - indexB; // ASC
+                  })
+                  .map(([cell]): string => (cell as HTMLElement).innerText);
+              },
+              allowedIndexes,
+            ),
         ),
       )
     )
@@ -114,22 +115,21 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       .map((row) => row.map((cell, index) => settings.colParser(cell, index, getColumnIndex)))
       .map((row) => {
         settings.rowTransform(row, getColumnIndex);
-        return row
-          .filter((_, index) => !excludedKeyIndexes.includes(index))
-          .join(settings.csvSeparator);
+        const filteredRow = row.filter((_, index) => !excludedKeyIndexes.includes(index));
+        return settings.rowValuesAsArray ? filteredRow : filteredRow.join(settings.csvSeparator);
       });
 
     if (addHeader) {
-      const headerRow = Object.values(settings.allowedColNames);
-      const sortedHeader = extraColsMapper(headerRow, 'colName');
+      const headerRowRaw = Object.values(settings.allowedColNames);
+      const sortedHeader = extraColsMapper(headerRowRaw, 'colName');
+
+      const headerRow = sortedHeader.filter((_, index) => !excludedKeyIndexes.includes(index));
 
       finalRows.unshift(
-        sortedHeader
-          .filter((_, index) => !excludedKeyIndexes.includes(index))
-          .join(settings.csvSeparator),
+        settings.rowValuesAsArray ? headerRow : headerRow.join(settings.csvSeparator),
       );
     }
 
-    return finalRows;
+    return finalRows as typeof settings.rowValuesAsArray extends true ? string[][] : string[];
   };
 };

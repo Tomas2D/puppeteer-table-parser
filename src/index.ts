@@ -12,6 +12,7 @@ const defaultSettings: ParserSettingsOptional = {
   rowValidator: () => true,
   rowTransform: () => {},
   asArray: false,
+  rowValuesAsArray: false,
   temporaryColNames: [],
   colFilter: (elText) => elText.join(' '),
   colParser: (value) => value.trim(),
@@ -19,13 +20,23 @@ const defaultSettings: ParserSettingsOptional = {
 
 export async function tableParser(
   page: Page,
-  settings: ParserSettings & { asArray: true },
+  settings: Omit<ParserSettings, 'asArray'> & {
+    asArray: true;
+    rowValuesAsArray?: false;
+  },
 ): Promise<string[]>;
+export async function tableParser(
+  page: Page,
+  settings: Omit<ParserSettings, 'asArray' | 'rowValuesAsArray'> & {
+    asArray: true;
+    rowValuesAsArray: true;
+  },
+): Promise<string[][]>;
 export async function tableParser(page: Page, options: ParserSettings): Promise<string>;
 export async function tableParser<T extends ParserSettings>(
   page: Page,
   options: T,
-): Promise<string | string[]> {
+): Promise<string | string[] | string[][]> {
   const settings: FullParserSettings = { ...defaultSettings, ...options };
 
   validateSettings(settings);
