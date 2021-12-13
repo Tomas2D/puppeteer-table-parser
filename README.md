@@ -134,6 +134,8 @@ await tableParser(page, {
       row[favoriteIndex] = 'NO';
     }
   },
+  asArray: false,
+  rowValuesAsArray: false
 });
 ```
 
