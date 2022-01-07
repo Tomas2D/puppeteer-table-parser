@@ -46,7 +46,7 @@ export const validateSettings = (settings: Required<ParserSettings>): void => {
   const allowedColNamesValues = Object.values(allowedColNames);
   for (const { colName } of extraCols) {
     if (allowedColNamesValues.includes(colName)) {
-      throw new Error(`'${colName}' in 'extraCols' has same name as column in 'allowColNames'!`);
+      throw new Error(`'${colName}' in 'extraCols' has same name as column in 'allowedColNames'!`);
     }
   }
 
