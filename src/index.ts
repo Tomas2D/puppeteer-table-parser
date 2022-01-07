@@ -16,6 +16,7 @@ const defaultSettings: ParserSettingsOptional = {
   temporaryColNames: [],
   colFilter: (elText) => elText.join(' '),
   colParser: (value) => value.trim(),
+  optionalColNames: [],
 };
 
 export async function tableParser(

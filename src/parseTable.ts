@@ -1,5 +1,5 @@
 import { FullParserSettings } from './types';
-import { extraColsMapperFactory } from './helpers';
+import { extraColsMapperFactory, diffFromSource, removeKeysByValues } from './helpers';
 import { ElementHandle } from 'puppeteer';
 
 export const parseTableFactory = (settings: FullParserSettings) => {
@@ -26,7 +26,8 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       headerRow = headerRows.shift()!;
     }
 
-    const allowedColNamesDebug = { ...settings.allowedColNames };
+    // Will be updated during parsing and not found columns will be deleted
+    const nonFoundedColNames = { ...settings.allowedColNames };
 
     // Sorted by finding which was first visited
     // is index in which we traverse the table, second is final position
@@ -42,15 +43,13 @@ export const parseTableFactory = (settings: FullParserSettings) => {
         )
       )
         .map((text: string[], realIndex: number) => {
-          const colName = settings.colFilter(text as string[], realIndex);
+          const colName = String(settings.colFilter(text as string[], realIndex));
           if (!Object.prototype.hasOwnProperty.call(settings.allowedColNames, colName)) {
             return null;
           }
 
-          // for debug purpose!
-          delete allowedColNamesDebug[colName];
-
-          return [realIndex, String(colName)];
+          delete nonFoundedColNames[colName];
+          return [realIndex, colName];
         })
         .filter((pair: any) => pair !== null)
         .map((pair: any) => {
@@ -61,8 +60,12 @@ export const parseTableFactory = (settings: FullParserSettings) => {
         }),
     );
 
-    if (Object.keys(allowedIndexes).length !== allowedColNamesKeys.length) {
-      console.info(`Not matched columns are following entries: `, allowedColNamesDebug);
+    const missingRequiredColumns = diffFromSource(
+      Object.values(nonFoundedColNames),
+      settings.optionalColNames,
+    );
+    if (missingRequiredColumns.length > 0) {
+      console.info(`Not matched columns are following entries: `, missingRequiredColumns);
       throw new Error('Number of filtered columns does not match to required columns count!');
     }
 
@@ -123,7 +126,9 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       const headerRowRaw = Object.values(settings.allowedColNames);
       const sortedHeader = extraColsMapper(headerRowRaw, 'colName');
 
-      const headerRow = sortedHeader.filter((_, index) => !excludedKeyIndexes.includes(index));
+      const headerRow = sortedHeader
+        .filter((_, index) => !excludedKeyIndexes.includes(index))
+        .filter((key) => !Object.values(nonFoundedColNames).includes(key));
 
       finalRows.unshift(
         settings.rowValuesAsArray ? headerRow : headerRow.join(settings.csvSeparator),

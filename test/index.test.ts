@@ -125,6 +125,18 @@ describe('Basic parsing', () => {
     ).rejects.toThrowError();
   });
 
+  it('Throw error when specified optional column which does not exists', () => {
+    expect(
+      tableParser(page, {
+        selector: 'table',
+        allowedColNames: {
+          'car-name': 'car',
+        },
+        optionalColNames: ['xcar'],
+      }),
+    ).rejects.toThrowError();
+  });
+
   it('Parse webalize', async () => {
     await page.goto(`${getBaseUrl()}/1.html`);
 
@@ -289,6 +301,36 @@ describe('Basic parsing', () => {
       NO;2015;Audi S5
       YES;2020;Alfa Romeo Giulia
       NO;2017;BMW X3"
+    `);
+  });
+
+  it('Parse if column was not found, but was optional', async () => {
+    await page.goto(`${getBaseUrl()}/1.html`);
+
+    const data = await tableParser(page, {
+      selector: 'table',
+      allowedColNames: {
+        'Car Name': 'car',
+        'Some non existing column': 'non-existing',
+        'Horse Powers': 'hp',
+        'Manufacture Year': 'year',
+      },
+      extraCols: [
+        {
+          colName: 'ex',
+          data: 'ex',
+          position: 1,
+        },
+      ],
+      optionalColNames: ['car', 'non-existing'],
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "car;ex;hp;year
+      Audi S5;ex;332;2015
+      Alfa Romeo Giulia;ex;500;2020
+      BMW X3;ex;215;2017
+      Skoda Octavia;ex;120;2012"
     `);
   });
 });

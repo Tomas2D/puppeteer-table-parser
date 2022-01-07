@@ -55,4 +55,32 @@ export const validateSettings = (settings: Required<ParserSettings>): void => {
       `'rowValuesAsArray' can be set to true only and only if 'asArray' is also true!`,
     );
   }
+
+  if (!Array.isArray(settings.optionalColNames)) {
+    throw new Error(`'optionalColNames' must be an "array"`);
+  }
+  for (const optionalColName of settings.optionalColNames) {
+    if (!allowedColNamesValues.includes(optionalColName)) {
+      throw new Error(
+        `'${optionalColName}' in 'optionalColNames' does not exists in 'allowedColNames'!`,
+      );
+    }
+  }
+};
+
+export const removeKeysByValues = <T extends Record<string, string>>(
+  { ...obj }: T,
+  keys: string[],
+): T => {
+  Object.entries(obj).forEach(([key, value]) => {
+    if (keys.includes(value)) {
+      console.info(`Deleting ${key}`);
+      delete obj[key];
+    }
+  });
+  return obj;
+};
+
+export const diffFromSource = <T>(source: T[], target: T[]): T[] => {
+  return source.filter((x) => !target.includes(x));
 };

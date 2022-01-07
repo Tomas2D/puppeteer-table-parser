@@ -146,6 +146,23 @@ YES;2020;Alfa Romeo Giulia
 NO;2017;BMW X3
 ```
 
+**Optional columns**
+
+Sometimes you can be in a situation where some if
+your columns are desired, but they are not available in a table.
+You can easily add an exception for them via `optionalColNames` property.
+
+```typescript
+await tableParser(page, {
+  selector: 'table',
+  allowedColNames: {
+    'Car Name': 'car',
+    'Rating': 'rating',
+  },
+  optionalColNames: ['rating']
+});
+```
+
 For more, look at `test` folder! 🙈
 
 ## TODO
