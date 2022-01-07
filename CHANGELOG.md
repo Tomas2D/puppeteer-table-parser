@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.4.0"></a>
+## 1.4.0 (2022-01-07)
+
+### Added
+
+- ✨ Add support for optional columns [[ae6ea88](https://github.com/Tomas2D/puppeteer-table-parser/commit/ae6ea8829d2ad7d883056c35a149066712ca1896)]
+
+### Changed
+
+- 💬 Update error message with duplicated column name [[0f16626](https://github.com/Tomas2D/puppeteer-table-parser/commit/0f166268fb3709d7edb2c5fc9da6ef2d3858da51)]
+
+
 <a name="1.3.0"></a>
 ## 1.3.0 (2021-12-13)
 
