@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="1.4.1"></a>
+## 1.4.1 (2022-03-19)
+
+### Changed
+
+- ⬆️ Upgrade dependencies to fix security audit [[d98fc13](https://github.com/Tomas2D/puppeteer-table-parser/commit/d98fc133512f58a6ca3e9d49e51942fabed3afd2)]
+
+
 <a name="1.4.0"></a>
 ## 1.4.0 (2022-01-07)
 
