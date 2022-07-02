@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="1.4.2"></a>
+## 1.4.2 (2022-07-02)
+
+### Added
+
+- ✨ Omit properties from settings with &#x60;undefined&#x60; value [[65237aa](https://github.com/Tomas2D/puppeteer-table-parser/commit/65237aa15c1b5fefd2aef97b369156b51cdfeb4e)]
+
+### Changed
+
+- 💬 Update README [[56b351a](https://github.com/Tomas2D/puppeteer-table-parser/commit/56b351a8885d3b35284a2b813232da4fb0a6b127)]
+
+### Miscellaneous
+
+-  Merge pull request [#7](https://github.com/Tomas2D/puppeteer-table-parser/issues/7) from Tomas2D/dependabot/npm_and_yarn/minimist-1.2.6 [[52003c4](https://github.com/Tomas2D/puppeteer-table-parser/commit/52003c457bf0fe63b2fb78c67f9a277e1455a3a5)]
+-  Bump minimist from 1.2.5 to 1.2.6 [[565cb1c](https://github.com/Tomas2D/puppeteer-table-parser/commit/565cb1c4a88bf3a48696fb99824fde7bb763bbfc)]
+
+
 <a name="1.4.1"></a>
 ## 1.4.1 (2022-03-19)
 
