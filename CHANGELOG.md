@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.5.0"></a>
+## 1.5.0 (2022-07-02)
+
+### Added
+
+- ✨ Add support for reverse table traversal [[9cfff80](https://github.com/Tomas2D/puppeteer-table-parser/commit/9cfff8052d9344030ad48143b0b48884eb96f2e8)]
+
+### Changed
+
+- 🔧 Remove JS comments from output [[d9e01d0](https://github.com/Tomas2D/puppeteer-table-parser/commit/d9e01d0d132042793929514b74f7ceda83278713)]
+
+
 <a name="1.4.2"></a>
 ## 1.4.2 (2022-07-02)
 
