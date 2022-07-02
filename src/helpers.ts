@@ -84,3 +84,8 @@ export const removeKeysByValues = <T extends Record<string, string>>(
 export const diffFromSource = <T>(source: T[], target: T[]): T[] => {
   return source.filter((x) => !target.includes(x));
 };
+
+export const omitUndefined = <T extends Record<string, any>>(source: T): Exclude<T, undefined> => {
+  const definedPairs = Object.entries(source).filter(([, val]) => val !== undefined)
+  return Object.fromEntries(definedPairs) as Exclude<T, undefined>
+}

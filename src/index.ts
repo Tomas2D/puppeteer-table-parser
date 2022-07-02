@@ -1,6 +1,6 @@
 import { ElementHandle, Page } from 'puppeteer';
 import { ParserSettingsOptional, ParserSettings, FullParserSettings } from './types';
-import { validateSettings } from './helpers';
+import { omitUndefined, validateSettings } from './helpers';
 import { parseTableFactory } from './parseTable';
 import { mergeParserSettings } from './merger';
 
@@ -38,7 +38,7 @@ export async function tableParser<T extends ParserSettings>(
   page: Page,
   options: T,
 ): Promise<string | string[] | string[][]> {
-  const settings: FullParserSettings = { ...defaultSettings, ...options };
+  const settings: FullParserSettings = { ...defaultSettings, ...omitUndefined(options) };
 
   validateSettings(settings);
 
