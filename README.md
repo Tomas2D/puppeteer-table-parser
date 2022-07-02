@@ -29,7 +29,8 @@ npm install puppeteer-table-parser
 interface ParserSettings {
   selector: string; // CSS selector
   allowedColNames: Record<strings, string>; // key = input name, value = output name)
-  
+
+  reverseTraversal?: boolean // (default: false)
   temporaryColNames?: string[]; // (default: []) 
   extraCols?: ExtraCol[]; // (default: [])
   withHeader?: boolean; // (default: true)

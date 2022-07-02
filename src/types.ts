@@ -19,6 +19,7 @@ export type ParserSettingsOptional = {
   colFilter: (elText: string[], index: number) => string;
   colParser: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string;
   optionalColNames: string[];
+  reverseTraversal: boolean
 };
 
 export interface ParserSettings extends Partial<ParserSettingsOptional> {

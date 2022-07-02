@@ -43,6 +43,26 @@ describe('Basic parsing', () => {
     `);
   });
 
+  it('Parse in reverse order', async () => {
+    await page.goto(`${getBaseUrl()}/1.html`);
+
+    const data = await tableParser(page, {
+      selector: 'table',
+      reverseTraversal: true,
+      allowedColNames: {
+        'Car Name': 'car',
+      },
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "car
+      Skoda Octavia
+      BMW X3
+      Alfa Romeo Giulia
+      Audi S5"
+    `);
+  });
+
   it('Return data as array with strings inside', async () => {
     await page.goto(`${getBaseUrl()}/1.html`);
 

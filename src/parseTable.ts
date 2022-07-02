@@ -1,5 +1,5 @@
 import { FullParserSettings } from './types';
-import { extraColsMapperFactory, diffFromSource, removeKeysByValues } from './helpers';
+import { extraColsMapperFactory, diffFromSource } from './helpers';
 import { ElementHandle } from 'puppeteer';
 
 export const parseTableFactory = (settings: FullParserSettings) => {
@@ -24,6 +24,10 @@ export const parseTableFactory = (settings: FullParserSettings) => {
         console.warn('Cannot handle multiple rows in header! Beware of it!');
       }
       headerRow = headerRows.shift()!;
+    }
+
+    if (settings.reverseTraversal) {
+      rows.reverse();
     }
 
     // Will be updated during parsing and not found columns will be deleted

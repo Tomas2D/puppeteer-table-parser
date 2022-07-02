@@ -2,7 +2,7 @@ import { Server } from 'http';
 import * as path from 'path';
 import express from 'express';
 
-const port = 3000;
+const port = 7588;
 
 export const getBaseUrl = () => {
   return `http://localhost:${port}`;
