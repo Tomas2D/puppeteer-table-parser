@@ -23,6 +23,40 @@ yarn add puppeteer-table-parser
 npm install puppeteer-table-parser
 ```
 
+## API
+
+```typescript
+interface ParserSettings {
+  selector: string; // CSS selector
+  allowedColNames: Record<strings, string>; // key = input name, value = output name)
+  
+  temporaryColNames?: string[]; // (default: []) 
+  extraCols?: ExtraCol[]; // (default: [])
+  withHeader?: boolean; // (default: true)
+  csvSeparator?: string; // (default: ';')
+  newLine?: string; // (default '\n')
+  rowValidator?: (row: string[], getColumnIndex: GetColumnIndexType) => boolean;
+  rowTransform?: (row: string[], getColumnIndex: GetColumnIndexType) => void;
+  asArray?: boolean; // (default: false)
+  rowValuesAsArray?: boolean; // (default: false)
+  colFilter?: (elText: string[], index: number) => string; // (default: (txt: string) => txt.join(' '))
+  colParser?: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string; // (default: (txt: string) => txt.trim())
+  optionalColNames?: string[]; // (default: [])
+};
+```
+
+## Parsing workflow
+
+1. Find table(s) by provided CSS selector.
+2. Find associated columns by applying `colFilter` on their text and verify their count.
+3. Add extra columns specified in `extraCols` property in settings.
+4. Run `rowValidator` function for every table row.
+5. Run `colParser` for every cell in a row.
+6. Run `rowTransform` function for each row.
+7. Add processed row to a temp array result.
+8. Add `header` column if `withHeader` property is `true`.
+9. Merge partial results and return them.
+
 ## Examples
 
 > All data came from the HTML page, which you can find in `test/assets/1.html`.
@@ -169,5 +203,6 @@ For more, look at `test` folder! 🙈
 
 - [X] Add more examples
 - [X] Add tests
+- [X] Describe interfaces
 - [ ] Show merging table structures
-- [ ] Describe interfaces
+
