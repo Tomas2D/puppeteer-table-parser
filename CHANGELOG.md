@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="1.5.1"></a>
+## 1.5.1 (2022-07-04)
+
+### Changed
+
+- 🔧 Update repository info in package.json [[edd194d](https://github.com/Tomas2D/puppeteer-table-parser/commit/edd194d1828e82b0d46695f1c37836534723b20e)]
+
+
 <a name="1.5.0"></a>
 ## 1.5.0 (2022-07-02)
 
