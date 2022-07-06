@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.6.0"></a>
+## 1.6.0 (2022-07-06)
+
+### Added
+
+- ✨ Add rows and body selector, refactor codebase, migrate to Node 16 [[70256ba](https://github.com/Tomas2D/puppeteer-table-parser/commit/70256ba377f726d424233a7933756f4e1f7b11b2)]
+- ✨ Add custom error classes, refactor settings and exports [[ba9c726](https://github.com/Tomas2D/puppeteer-table-parser/commit/ba9c726f61f15893b57633a67cba7fde7830d19d)]
+
+### Fixed
+
+- 🐛 Fix asynchronous filtering of invalid HTMl elements [[473a69e](https://github.com/Tomas2D/puppeteer-table-parser/commit/473a69e74d08476b2cd55f34cae1d6385ef6afab)]
+
+
 <a name="1.5.1"></a>
 ## 1.5.1 (2022-07-04)
 
