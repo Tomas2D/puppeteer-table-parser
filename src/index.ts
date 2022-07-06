@@ -20,6 +20,24 @@ const defaultSettings: ParserSettingsOptional = {
   reverseTraversal: false,
 };
 
+async function retrieveTables(page: Page, selector: string) {
+  await page.waitForSelector(selector);
+
+  const elements: ElementHandle[] = await page.$$(selector);
+  const elementsTypes: string[] = await Promise.all(
+    elements.map((elHandle) => elHandle.evaluate((el: HTMLElement) => el.tagName)),
+  );
+
+  return elements.filter((el, index) => {
+    const elType: string = elementsTypes[index];
+    if (elType !== 'TABLE') {
+      console.warn('Invalid selector! Element is not a table!');
+      return false;
+    }
+    return true;
+  });
+}
+
 export async function tableParser(
   page: Page,
   settings: Omit<ParserSettings, 'asArray'> & {
@@ -43,18 +61,7 @@ export async function tableParser<T extends ParserSettings>(
 
   validateSettings(settings);
 
-  const tables: ElementHandle[] = await Promise.all(
-    (
-      await page.$$(settings.selector)
-    ).filter(async (table: ElementHandle) => {
-      const nodeName: string = await table.evaluate((table: HTMLElement) => table.nodeName);
-      if (nodeName.toUpperCase() !== 'TABLE') {
-        console.warn('Invalid selector! Element is not table!');
-        return false;
-      }
-      return true;
-    }),
-  );
+  const tables: ElementHandle[] = await retrieveTables(page, settings.selector);
 
   if (tables.length === 0) {
     throw new Error('No tables found! Probably wrong table selector!');
