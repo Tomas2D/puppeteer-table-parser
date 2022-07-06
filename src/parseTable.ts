@@ -1,6 +1,7 @@
 import { FullParserSettings } from './types';
 import { extraColsMapperFactory, diffFromSource } from './helpers';
 import { ElementHandle } from 'puppeteer';
+import { NoElementsFoundError } from './errors';
 
 export const parseTableFactory = (settings: FullParserSettings) => {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
@@ -69,8 +70,10 @@ export const parseTableFactory = (settings: FullParserSettings) => {
       settings.optionalColNames,
     );
     if (missingRequiredColumns.length > 0) {
-      console.info(`Not matched columns are following entries: `, missingRequiredColumns);
-      throw new Error('Number of filtered columns does not match to required columns count!');
+      console.warn(`Not matched columns are following entries: `, missingRequiredColumns);
+      throw new NoElementsFoundError(
+        'Number of filtered columns does not match to required columns count!',
+      );
     }
 
     const excludedKeyIndexes: number[] = [];
@@ -87,7 +90,7 @@ export const parseTableFactory = (settings: FullParserSettings) => {
     const getColumnIndex = (colName: string): number => {
       const index = colKeyToIndexWithExcluded.get(colName);
       if (index === undefined) {
-        throw new Error(`Invalid column name! '${colName}'`);
+        throw new NoElementsFoundError(`Invalid column name! '${colName}'`);
       }
 
       return index;

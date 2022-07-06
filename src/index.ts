@@ -1,24 +1,10 @@
 import { ElementHandle, Page } from 'puppeteer';
-import { ParserSettingsOptional, ParserSettings, FullParserSettings } from './types';
-import { omitUndefined, validateSettings } from './helpers';
+import { ParserSettings, FullParserSettings } from './types';
+import { omitUndefined } from './helpers';
 import { parseTableFactory } from './parseTable';
 import { mergeParserSettings } from './merger';
-
-const defaultSettings: ParserSettingsOptional = {
-  extraCols: [],
-  withHeader: true,
-  csvSeparator: ';',
-  newLine: '\n',
-  rowValidator: () => true,
-  rowTransform: () => {},
-  asArray: false,
-  rowValuesAsArray: false,
-  temporaryColNames: [],
-  colFilter: (elText) => elText.join(' '),
-  colParser: (value) => value.trim(),
-  optionalColNames: [],
-  reverseTraversal: false,
-};
+import { defaultSettings, validateSettings } from './settings';
+import { NoElementsFoundError } from './errors';
 
 async function retrieveTables(page: Page, selector: string) {
   await page.waitForSelector(selector);
@@ -64,13 +50,13 @@ export async function tableParser<T extends ParserSettings>(
   const tables: ElementHandle[] = await retrieveTables(page, settings.selector);
 
   if (tables.length === 0) {
-    throw new Error('No tables found! Probably wrong table selector!');
+    throw new NoElementsFoundError('No tables found! Probably wrong table selector!');
   }
 
   const parseTable = parseTableFactory(settings);
 
+  const tableResults = [];
   let headerFound = false;
-  const dataTables = [];
 
   for (const table of tables) {
     const withHeader = settings.withHeader && !headerFound;
@@ -79,13 +65,15 @@ export async function tableParser<T extends ParserSettings>(
     if (data.length > 0 && withHeader) {
       headerFound = true;
     }
-    dataTables.push(data);
+    tableResults.push(data);
   }
 
-  const filteredDataTables = dataTables.flat().filter(Boolean);
+  const filteredDataTables = tableResults.flat().filter(Boolean);
   return settings.asArray ? filteredDataTables : filteredDataTables.join(settings.newLine);
 }
 
 export default tableParser;
 
 export { mergeParserSettings };
+export * from './types';
+export * from './errors';
