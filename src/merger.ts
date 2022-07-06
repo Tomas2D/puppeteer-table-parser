@@ -1,4 +1,4 @@
-import { MergeParserSettings } from './types';
+import type { MergeParserSettings } from './types';
 
 export const mergeParserSettings = (
   to: MergeParserSettings,
@@ -28,11 +28,8 @@ export const mergeParserSettings = (
   generalColNames.reverse().forEach(([key, val], index) => {
     const realPosition = generalColNames.length - index - 1;
 
-    // If columns does not exists yet and is not excluded
-    if (
-      !Object.prototype.hasOwnProperty.call(newConfig.allowedColNames, key) &&
-      !ignoredAllowedColumns.includes(key)
-    ) {
+    // If column does not exist yet and is not excluded
+    if (!newConfig.allowedColNames.hasOwnProperty(key) && !ignoredAllowedColumns.includes(key)) {
       const searchEntry = newConfig.extraCols.find((col) => col.colName === key);
 
       // Column already exists, just update position to match

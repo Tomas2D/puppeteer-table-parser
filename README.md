@@ -30,13 +30,20 @@ interface ParserSettings {
   selector: string; // CSS selector
   allowedColNames: Record<strings, string>; // key = input name, value = output name)
 
+  headerRowsSelector?: string | null; // (default: 'thead tr', null ignores table's header selection)
+  bodyRowsSelector?: string;  // (default: 'tbody tr')
   reverseTraversal?: boolean // (default: false)
   temporaryColNames?: string[]; // (default: []) 
   extraCols?: ExtraCol[]; // (default: [])
   withHeader?: boolean; // (default: true)
   csvSeparator?: string; // (default: ';')
   newLine?: string; // (default '\n')
-  rowValidator?: (row: string[], getColumnIndex: GetColumnIndexType) => boolean;
+  rowValidator: (
+    row: string[],
+    getColumnIndex: GetColumnIndexType,
+    rowIndex: number,
+    rows: Readonly<string[][]>,
+  ) => boolean;
   rowTransform?: (row: string[], getColumnIndex: GetColumnIndexType) => void;
   asArray?: boolean; // (default: false)
   rowValuesAsArray?: boolean; // (default: false)

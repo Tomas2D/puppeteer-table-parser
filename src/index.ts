@@ -4,14 +4,14 @@ import { omitUndefined } from './helpers';
 import { parseTableFactory } from './parseTable';
 import { mergeParserSettings } from './merger';
 import { defaultSettings, validateSettings } from './settings';
-import { NoElementsFoundError } from './errors';
+import { NoTablesFoundError } from './errors';
 
 async function retrieveTables(page: Page, selector: string) {
   await page.waitForSelector(selector);
 
   const elements: ElementHandle[] = await page.$$(selector);
   const elementsTypes: string[] = await Promise.all(
-    elements.map((elHandle) => elHandle.evaluate((el: HTMLElement) => el.tagName)),
+    elements.map((elHandle) => elHandle.evaluate((el) => el.tagName)),
   );
 
   return elements.filter((el, index) => {
@@ -50,7 +50,7 @@ export async function tableParser<T extends ParserSettings>(
   const tables: ElementHandle[] = await retrieveTables(page, settings.selector);
 
   if (tables.length === 0) {
-    throw new NoElementsFoundError('No tables found! Probably wrong table selector!');
+    throw new NoTablesFoundError('No tables found! Probably wrong table selector!');
   }
 
   const parseTable = parseTableFactory(settings);

@@ -12,14 +12,21 @@ export type ParserSettingsOptional = {
   withHeader: boolean;
   csvSeparator: string;
   newLine: string;
-  rowValidator: (row: string[], getColumnIndex: GetColumnIndexType) => boolean;
+  rowValidator: (
+    row: string[],
+    getColumnIndex: GetColumnIndexType,
+    rowIndex: number,
+    rows: Readonly<string[][]>,
+  ) => boolean;
   rowTransform: (row: string[], getColumnIndex: GetColumnIndexType) => void;
   asArray: boolean;
   rowValuesAsArray: boolean;
   colFilter: (elText: string[], index: number) => string;
   colParser: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string;
   optionalColNames: string[];
-  reverseTraversal: boolean
+  reverseTraversal: boolean;
+  headerRowsSelector: string | null;
+  bodyRowsSelector: string;
 };
 
 export interface ParserSettings extends Partial<ParserSettingsOptional> {

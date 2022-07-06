@@ -15,6 +15,8 @@ export const defaultSettings: ParserSettingsOptional = {
   colParser: (value) => value.trim(),
   optionalColNames: [],
   reverseTraversal: false,
+  headerRowsSelector: 'thead tr',
+  bodyRowsSelector: 'tbody tr',
 };
 
 export function validateSettings(settings: Required<ParserSettings>): void {
