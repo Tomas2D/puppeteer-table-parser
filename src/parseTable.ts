@@ -52,6 +52,8 @@ export function parseTableFactory(settings: FullParserSettings) {
       );
 
   return async (table: ElementHandle, addHeader: boolean) => {
+    await table.evaluate((el) => el.scrollIntoView());
+
     const headerRows: ElementHandle[] = await getHeaderRows(table);
     const bodyRows: ElementHandle[] = await getBodyRows(table);
 
