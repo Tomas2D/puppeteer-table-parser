@@ -1,5 +1,30 @@
 # Changelog
 
+<a name="1.7.0"></a>
+## 1.7.0 (2022-07-13)
+
+### Added
+
+- ✨ Scroll table into view during parsing [[4661c22](https://github.com/Tomas2D/puppeteer-table-parser/commit/4661c22b444911373575b8d29589871531062456)]
+
+### Changed
+
+- 🔧 Setup Dependabot auto updates [[8124a34](https://github.com/Tomas2D/puppeteer-table-parser/commit/8124a3431309f4fb3c2184ec09323fc0234d2bfe)]
+
+### Miscellaneous
+
+-  Merge pull request [#10](https://github.com/Tomas2D/puppeteer-table-parser/issues/10) from Tomas2D/dependabot/npm_and_yarn/lint-staged-13.0.3 [[ae23cbf](https://github.com/Tomas2D/puppeteer-table-parser/commit/ae23cbfd95cf4fff15465d86a7bdb424d60aa149)]
+-  Merge pull request [#11](https://github.com/Tomas2D/puppeteer-table-parser/issues/11) from Tomas2D/dependabot/npm_and_yarn/typescript-4.7.4 [[10b65ae](https://github.com/Tomas2D/puppeteer-table-parser/commit/10b65aea9ba480bd6095bb91644dc895e3fddc2a)]
+-  Merge pull request [#8](https://github.com/Tomas2D/puppeteer-table-parser/issues/8) from Tomas2D/dependabot/npm_and_yarn/husky-8.0.1 [[0e3b4b3](https://github.com/Tomas2D/puppeteer-table-parser/commit/0e3b4b3554fa08d0980abe5a89ea3e8d03c4b337)]
+-  Merge pull request [#9](https://github.com/Tomas2D/puppeteer-table-parser/issues/9) from Tomas2D/dependabot/npm_and_yarn/prettier-2.7.1 [[6cd9faf](https://github.com/Tomas2D/puppeteer-table-parser/commit/6cd9faf56f6cc883bfd91816a1e3d15f4674068e)]
+-  Merge pull request [#12](https://github.com/Tomas2D/puppeteer-table-parser/issues/12) from Tomas2D/dependabot/npm_and_yarn/puppeteer-15.3.2 [[58875f1](https://github.com/Tomas2D/puppeteer-table-parser/commit/58875f102c1db9636159d396b4f83f6d9b2ec2b0)]
+-  Bump lint-staged from 10.5.4 to 13.0.3 [[67f34b1](https://github.com/Tomas2D/puppeteer-table-parser/commit/67f34b12e4ea09962099cebd79201556f104cefb)]
+-  Bump puppeteer from 15.3.1 to 15.3.2 [[4b2a77a](https://github.com/Tomas2D/puppeteer-table-parser/commit/4b2a77a7d8b0e44afaae64f56b4f49e586a5a04b)]
+-  Bump typescript from 4.6.4 to 4.7.4 [[613c538](https://github.com/Tomas2D/puppeteer-table-parser/commit/613c538380b8dcf795ecce45a7747b8b69933ad9)]
+-  Bump prettier from 2.6.0 to 2.7.1 [[d47a7e9](https://github.com/Tomas2D/puppeteer-table-parser/commit/d47a7e95f6a86353fd460a68e775dcf717591352)]
+-  Bump husky from 7.0.4 to 8.0.1 [[931e394](https://github.com/Tomas2D/puppeteer-table-parser/commit/931e39456ebf2ba134650740884a9129722ad2ea)]
+
+
 <a name="1.6.0"></a>
 ## 1.6.0 (2022-07-06)
 
