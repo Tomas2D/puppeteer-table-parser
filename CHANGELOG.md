@@ -1,5 +1,38 @@
 # Changelog
 
+<a name="1.7.1"></a>
+## 1.7.1 (2022-09-08)
+
+### Changed
+
+- 🔧 Use the newest 16.x Node version [[0b4dd57](https://github.com/Tomas2D/puppeteer-table-parser/commit/0b4dd5702e8df5ba77fdb80a513aec9600deb7d5)]
+- ⬆️ Upgrade puppeteer [[94aaf0e](https://github.com/Tomas2D/puppeteer-table-parser/commit/94aaf0ea443aa7b324df10ec7a5e0283c64119c5)]
+
+### Miscellaneous
+
+-  👷 Use node version from .nvmrc [[eb83e14](https://github.com/Tomas2D/puppeteer-table-parser/commit/eb83e149ba2b8570d9b48732d21c961825993708)]
+-  Merge pull request [#23](https://github.com/Tomas2D/puppeteer-table-parser/issues/23) from Tomas2D/dependabot/npm_and_yarn/puppeteer-17.1.2 [[6a67714](https://github.com/Tomas2D/puppeteer-table-parser/commit/6a67714336f9eb10867be996eefcd3416c4f89fd)]
+-  Bump puppeteer from 17.1.1 to 17.1.2 [[afd8c24](https://github.com/Tomas2D/puppeteer-table-parser/commit/afd8c24f0fba2c9b1e220cfc703ecc839a29577f)]
+-  Merge pull request [#22](https://github.com/Tomas2D/puppeteer-table-parser/issues/22) from Tomas2D/dependabot/npm_and_yarn/puppeteer-17.1.1 [[d100655](https://github.com/Tomas2D/puppeteer-table-parser/commit/d1006550e75e4efc45298a86f963834c81575e9e)]
+-  Bump puppeteer from 17.0.0 to 17.1.1 [[cc55696](https://github.com/Tomas2D/puppeteer-table-parser/commit/cc55696ae6831eb7ca656b24a8df28fc13c282d0)]
+-  Merge pull request [#20](https://github.com/Tomas2D/puppeteer-table-parser/issues/20) from Tomas2D/dependabot/npm_and_yarn/puppeteer-17.0.0 [[6323698](https://github.com/Tomas2D/puppeteer-table-parser/commit/632369861c754fe666cfb3694afc0c82b45cff92)]
+-  Bump puppeteer from 16.2.0 to 17.0.0 [[178999a](https://github.com/Tomas2D/puppeteer-table-parser/commit/178999ae46e7efc5f2819609e9c42428e4e1fbc4)]
+-  Merge pull request [#18](https://github.com/Tomas2D/puppeteer-table-parser/issues/18) from Tomas2D/dependabot/npm_and_yarn/puppeteer-16.2.0 [[5b96ccf](https://github.com/Tomas2D/puppeteer-table-parser/commit/5b96ccf8b48155c3529806001e46737f19970de7)]
+-  Merge pull request [#19](https://github.com/Tomas2D/puppeteer-table-parser/issues/19) from Tomas2D/dependabot/npm_and_yarn/typescript-4.8.2 [[b6f0c8a](https://github.com/Tomas2D/puppeteer-table-parser/commit/b6f0c8a646fb906533d5e6c7ad8930747998a767)]
+-  Bump puppeteer from 16.1.1 to 16.2.0 [[9f1bdd9](https://github.com/Tomas2D/puppeteer-table-parser/commit/9f1bdd9e0f7e3b73e828ad61af39715816714b78)]
+-  Bump typescript from 4.7.4 to 4.8.2 [[5c0adba](https://github.com/Tomas2D/puppeteer-table-parser/commit/5c0adbae6987435654de9b4ae658d73d085ed463)]
+-  Merge pull request [#17](https://github.com/Tomas2D/puppeteer-table-parser/issues/17) from Tomas2D/dependabot/npm_and_yarn/puppeteer-16.1.1 [[244f412](https://github.com/Tomas2D/puppeteer-table-parser/commit/244f412817e640e505fb8e57cb031bc807f62b63)]
+-  Bump puppeteer from 16.1.0 to 16.1.1 [[3800d40](https://github.com/Tomas2D/puppeteer-table-parser/commit/3800d40049537c1e4c147d499ea230338a09798b)]
+-  Merge pull request [#16](https://github.com/Tomas2D/puppeteer-table-parser/issues/16) from Tomas2D/dependabot/npm_and_yarn/puppeteer-16.1.0 [[1cc2564](https://github.com/Tomas2D/puppeteer-table-parser/commit/1cc256475f6bc0deee1430fceb9ac4c7e51df605)]
+-  Bump puppeteer from 16.0.0 to 16.1.0 [[991c6ad](https://github.com/Tomas2D/puppeteer-table-parser/commit/991c6ad811f579140dcb0aad76321767755c162d)]
+-  Merge pull request [#15](https://github.com/Tomas2D/puppeteer-table-parser/issues/15) from Tomas2D/dependabot/npm_and_yarn/puppeteer-16.0.0 [[45a7645](https://github.com/Tomas2D/puppeteer-table-parser/commit/45a76454f0690e9af0663d4f4e625dc9e7079740)]
+-  Bump puppeteer from 15.5.0 to 16.0.0 [[c95cdfa](https://github.com/Tomas2D/puppeteer-table-parser/commit/c95cdfa1f5d343320c158d19d488056d8de440ce)]
+-  Merge pull request [#14](https://github.com/Tomas2D/puppeteer-table-parser/issues/14) from Tomas2D/dependabot/npm_and_yarn/puppeteer-15.5.0 [[ffcd0d6](https://github.com/Tomas2D/puppeteer-table-parser/commit/ffcd0d6207d78db5e603b1788f1d7c9edeb802b2)]
+-  Bump puppeteer from 15.4.0 to 15.5.0 [[c23c4f9](https://github.com/Tomas2D/puppeteer-table-parser/commit/c23c4f94634eb37db3b90decb3b41b666c65066f)]
+-  Merge pull request [#13](https://github.com/Tomas2D/puppeteer-table-parser/issues/13) from Tomas2D/dependabot/npm_and_yarn/puppeteer-15.4.0 [[bd75e42](https://github.com/Tomas2D/puppeteer-table-parser/commit/bd75e4217010817f4718fb8926a2cfffced29012)]
+-  Bump puppeteer from 15.3.2 to 15.4.0 [[92e5410](https://github.com/Tomas2D/puppeteer-table-parser/commit/92e541036723b1212c43191a52736f09689dbd8a)]
+
+
 <a name="1.7.0"></a>
 ## 1.7.0 (2022-07-13)
 
