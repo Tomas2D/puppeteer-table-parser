@@ -353,4 +353,38 @@ describe('Basic parsing', () => {
       Skoda Octavia;ex;120;2012"
     `);
   });
+
+  it('Handles multiple extra columns', async () => {
+    await page.goto(`${getBaseUrl()}/1.html`);
+
+    const data = await tableParser(page, {
+      selector: 'table',
+      allowedColNames: {
+        'Car Name': 'car',
+      },
+      extraCols: [
+        {
+          colName: 'ex1',
+          data: 'ex1',
+        },
+        {
+          colName: 'ex2',
+          data: 'ex2',
+        },
+        {
+          colName: 'ex0',
+          data: 'ex0',
+          position: 0,
+        },
+      ],
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "ex0;car;ex1;ex2
+      ex0;Audi S5;ex1;ex2
+      ex0;Alfa Romeo Giulia;ex1;ex2
+      ex0;BMW X3;ex1;ex2
+      ex0;Skoda Octavia;ex1;ex2"
+    `);
+  });
 });

@@ -1,5 +1,6 @@
-import { ParserSettings, ParserSettingsOptional } from './types';
+import { FullParserSettings, ParserSettings, ParserSettingsOptional } from './types';
 import { InvalidSettingsError } from './errors';
+import { omitUndefined } from './helpers';
 
 export const defaultSettings: ParserSettingsOptional = {
   extraCols: [],
@@ -19,13 +20,24 @@ export const defaultSettings: ParserSettingsOptional = {
   bodyRowsSelector: 'tbody tr',
 };
 
-export function validateSettings(settings: Required<ParserSettings>): void {
-  // Validate extraCols mapping
+export function preprocessSettings(options: ParserSettings): Required<ParserSettings> {
+  const settings: FullParserSettings = {
+    ...defaultSettings,
+    ...omitUndefined(options),
+  };
+
+  validateSettings(settings);
+  return settings;
+}
+
+export function validateSettings(
+  settings: Required<ParserSettings>,
+): asserts settings is Required<ParserSettings> {
   const { extraCols, temporaryColNames, allowedColNames } = settings;
 
-  const hasConflict = extraCols.some((a) =>
-    extraCols.find((b) => a !== b && a.position === b.position),
-  );
+  const hasConflict = extraCols
+    .filter((col) => col.position !== undefined)
+    .some((a) => extraCols.find((b) => a !== b && a.position === b.position));
 
   if (hasConflict) {
     throw new InvalidSettingsError('One or more `extraCols` have same position!');

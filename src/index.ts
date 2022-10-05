@@ -1,9 +1,8 @@
 import { ElementHandle, Page } from 'puppeteer';
 import { ParserSettings, FullParserSettings } from './types';
-import { omitUndefined } from './helpers';
 import { parseTableFactory } from './parseTable';
 import { mergeParserSettings } from './merger';
-import { defaultSettings, validateSettings } from './settings';
+import { preprocessSettings } from './settings';
 import { NoTablesFoundError } from './errors';
 
 async function retrieveTables(page: Page, selector: string) {
@@ -43,9 +42,7 @@ export async function tableParser<T extends ParserSettings>(
   page: Page,
   options: T,
 ): Promise<string | string[] | string[][]> {
-  const settings: FullParserSettings = { ...defaultSettings, ...omitUndefined(options) };
-
-  validateSettings(settings);
+  const settings: FullParserSettings = preprocessSettings(options);
 
   const tables: ElementHandle[] = await retrieveTables(page, settings.selector);
 

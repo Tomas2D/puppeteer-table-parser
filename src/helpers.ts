@@ -1,12 +1,14 @@
-import { ExtraCol, ExtraColsMapper } from './types';
+import type { ExtraCol, ExtraColsMapper } from './types';
+
+export const identity = <T>(value: T): T => value;
 
 export const extraColsMapperFactory = (extraCols: ExtraCol[]): ExtraColsMapper => {
   if (extraCols.length === 0) {
-    return (row) => row;
+    return identity;
   }
 
-  const withPos: Required<ExtraCol[]> = extraCols
-    .filter((extraCol) => extraCol.position !== undefined)
+  const withPos = extraCols
+    .filter((extraCol): extraCol is Required<ExtraCol> => extraCol.position !== undefined)
     .sort((a, b) => {
       return a.position! - b.position!;
     });
@@ -18,7 +20,7 @@ export const extraColsMapperFactory = (extraCols: ExtraCol[]): ExtraColsMapper =
     const newRow = row.slice();
 
     withPos.forEach((extraCol) => {
-      newRow.splice(extraCol.position!, 0, String(extraCol[key]));
+      newRow.splice(extraCol.position, 0, String(extraCol[key]));
     });
 
     return newRow.concat(withoutPos.map((extraCol) => String(extraCol[key])));
