@@ -37,7 +37,8 @@ interface ParserSettings {
   extraCols?: ExtraCol[]; // (default: [])
   withHeader?: boolean; // (default: true)
   csvSeparator?: string; // (default: ';')
-  newLine?: string; // (default '\n')
+  newLine?: string; // (default: '\n')
+  rowValidationPolicy?: RowValidationPolicy; // (default: 'NON_EMPTY')
   rowValidator: (
     row: string[],
     getColumnIndex: GetColumnIndexType,
@@ -57,13 +58,14 @@ interface ParserSettings {
 
 1. Find table(s) by provided CSS selector.
 2. Find associated columns by applying `colFilter` on their text and verify their count.
-3. Add extra columns specified in `extraCols` property in settings.
-4. Run `rowValidator` function for every table row.
-5. Run `colParser` for every cell in a row.
-6. Run `rowTransform` function for each row.
-7. Add processed row to a temp array result.
-8. Add `header` column if `withHeader` property is `true`.
-9. Merge partial results and return them.
+3. Filter rows based on `rowValidationPolicy`
+4. Add extra columns specified in `extraCols` property in settings.
+5. Run `rowValidator` function for every table row.
+6. Run `colParser` for every cell in a row.
+7. Run `rowTransform` function for each row.
+8. Add processed row to a temp array result.
+9. Add `header` column if `withHeader` property is `true`.
+10. Merge partial results and return them.
 
 ## Examples
 
