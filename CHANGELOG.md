@@ -1,5 +1,36 @@
 # Changelog
 
+<a name="1.8.0"></a>
+## 1.8.0 (2022-10-05)
+
+### Added
+
+- ✨ Add row structure validator [[2e50f49](https://github.com/Tomas2D/puppeteer-table-parser/commit/2e50f49d4f6b6826b6936186fe0141a62002c917)]
+
+### Changed
+
+- ⬆️ Upgrade ESLint [[25e5a8d](https://github.com/Tomas2D/puppeteer-table-parser/commit/25e5a8dccfd6a65a6597f387cf05e3861bfc587c)]
+
+### Fixed
+
+- 🐛 Handles multiple extra columns with implicit position [[a3960e5](https://github.com/Tomas2D/puppeteer-table-parser/commit/a3960e54b9f0545d5d55c4456cba590f9484fe9c)]
+
+### Miscellaneous
+
+-  Merge pull request [#29](https://github.com/Tomas2D/puppeteer-table-parser/issues/29) from Tomas2D/dependabot/npm_and_yarn/puppeteer-18.0.5 [[a35e7c9](https://github.com/Tomas2D/puppeteer-table-parser/commit/a35e7c96b5a9959a132c87a4c9b930384171b331)]
+-  Bump puppeteer from 18.0.4 to 18.0.5 [[d46ab26](https://github.com/Tomas2D/puppeteer-table-parser/commit/d46ab264b63f5e20aa537023b272d9a6ea97e3d4)]
+-  Merge pull request [#28](https://github.com/Tomas2D/puppeteer-table-parser/issues/28) from Tomas2D/dependabot/npm_and_yarn/puppeteer-18.0.4 [[9cc757e](https://github.com/Tomas2D/puppeteer-table-parser/commit/9cc757ec3c83a453f3b69d907025e3425c93505c)]
+-  Bump puppeteer from 18.0.3 to 18.0.4 [[76c09da](https://github.com/Tomas2D/puppeteer-table-parser/commit/76c09da9e7ffae8e77e3514dfd9ea8cafe89a6b3)]
+-  Merge pull request [#27](https://github.com/Tomas2D/puppeteer-table-parser/issues/27) from Tomas2D/dependabot/npm_and_yarn/puppeteer-18.0.3 [[951905b](https://github.com/Tomas2D/puppeteer-table-parser/commit/951905b0cfd70a7cdf289015b3af6d74b2c93be0)]
+-  Bump puppeteer from 17.1.3 to 18.0.3 [[7fce5a5](https://github.com/Tomas2D/puppeteer-table-parser/commit/7fce5a5ba0e07c76297defce643e12fe5c857e33)]
+-  Merge pull request [#26](https://github.com/Tomas2D/puppeteer-table-parser/issues/26) from Tomas2D/dependabot/npm_and_yarn/types/express-4.17.14 [[de4f86b](https://github.com/Tomas2D/puppeteer-table-parser/commit/de4f86b6341a3d2f0b63311fabfbaf2687f6272c)]
+-  Bump @types/express from 4.17.13 to 4.17.14 [[f552215](https://github.com/Tomas2D/puppeteer-table-parser/commit/f55221557386c1ec37620bb1cd4c911d8db980ee)]
+-  Merge pull request [#24](https://github.com/Tomas2D/puppeteer-table-parser/issues/24) from Tomas2D/dependabot/npm_and_yarn/typescript-4.8.3 [[1ac6ab9](https://github.com/Tomas2D/puppeteer-table-parser/commit/1ac6ab971ab9809410655cb81cd6f9092049ffff)]
+-  Merge pull request [#25](https://github.com/Tomas2D/puppeteer-table-parser/issues/25) from Tomas2D/dependabot/npm_and_yarn/puppeteer-17.1.3 [[9f02d0f](https://github.com/Tomas2D/puppeteer-table-parser/commit/9f02d0fde1cd34bf603f1d668e912b71a621d9f0)]
+-  Bump puppeteer from 17.1.2 to 17.1.3 [[914732e](https://github.com/Tomas2D/puppeteer-table-parser/commit/914732e659bf4f08ff6ac76e2a61f83c3f345f77)]
+-  Bump typescript from 4.8.2 to 4.8.3 [[4818638](https://github.com/Tomas2D/puppeteer-table-parser/commit/4818638de48ca2e98528cd2e9e005658289497e1)]
+
+
 <a name="1.7.1"></a>
 ## 1.7.1 (2022-09-08)
 
