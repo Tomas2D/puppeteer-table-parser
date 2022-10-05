@@ -1,7 +1,7 @@
-import { FullParserSettings } from './types';
-import { extraColsMapperFactory, diffFromSource } from './helpers';
+import { FullParserSettings, RowValidationPolicy } from './types';
+import { diffFromSource, extraColsMapperFactory } from './helpers';
 import { ElementHandle } from 'puppeteer';
-import { InvalidColumnError, MissingRequiredColumnsError } from './errors';
+import { InvalidColumnError, InvalidSettingsError, MissingRequiredColumnsError } from './errors';
 
 export function parseTableFactory(settings: FullParserSettings) {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
@@ -29,6 +29,20 @@ export function parseTableFactory(settings: FullParserSettings) {
       .filter((key) => !Object.values(nonFoundedColNames).includes(key));
 
     return settings.rowValuesAsArray ? headerRow : headerRow.join(settings.csvSeparator);
+  };
+
+  const getRowStructureValidator = (allowedIndexes: Record<string, number>) => {
+    if (settings.rowValidationPolicy === RowValidationPolicy.NONE) {
+      return () => true;
+    }
+    if (settings.rowValidationPolicy === RowValidationPolicy.NON_EMPTY) {
+      return (rows: string[]) => rows.length > 0;
+    }
+    if (settings.rowValidationPolicy === RowValidationPolicy.EXACT_MATCH) {
+      const indexesCount = Object.keys(allowedIndexes).length;
+      return (rows: string[]) => rows.length === indexesCount;
+    }
+    throw new InvalidSettingsError('Unknown mode for the "rowValidationPolicy"');
   };
 
   const filterSortCols =
@@ -126,6 +140,7 @@ export function parseTableFactory(settings: FullParserSettings) {
     };
 
     const finalRows = (await Promise.all(bodyRows.map(filterSortCols(allowedIndexes))))
+      .filter(getRowStructureValidator(allowedIndexes))
       .map((row) => extraColsMapper(row, 'data'))
       .filter((row, index, rows) => settings.rowValidator(row, getColumnIndex, index, rows))
       .map((row) => row.map((cell, index) => settings.colParser(cell, index, getColumnIndex)))

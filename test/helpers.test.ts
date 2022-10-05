@@ -1,5 +1,5 @@
 import { omitUndefined } from '../src/helpers';
-import { ParserSettingsOptional } from '../src/types';
+import type { ParserSettingsOptional } from '../src/types';
 
 describe('Helper utils', () => {
   it('Removes undefined properties', () => {

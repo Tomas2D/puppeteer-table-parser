@@ -1,8 +1,8 @@
 import { Server } from 'http';
 import { promisify } from 'util';
 import { createServer, getBaseUrl } from './createServer';
-import { launch, Browser, Page } from 'puppeteer';
-import tableParser from '../src';
+import { Browser, launch, Page } from 'puppeteer';
+import tableParser, { RowValidationPolicy } from '../src';
 
 describe('Basic parsing', () => {
   let server: Server;
@@ -127,6 +127,9 @@ describe('Basic parsing', () => {
           "Skoda Octavia",
           "120",
           "2012",
+        ],
+        Array [
+          "",
         ],
       ]
     `);
@@ -278,7 +281,8 @@ describe('Basic parsing', () => {
       2021-03-15;Audi S5
       2021-03-15;Alfa Romeo Giulia
       2021-03-15;BMW X3
-      2021-03-15;Skoda Octavia"
+      2021-03-15;Skoda Octavia
+      2021-03-15;"
     `);
   });
 
@@ -329,6 +333,7 @@ describe('Basic parsing', () => {
 
     const data = await tableParser(page, {
       selector: 'table',
+      rowValidationPolicy: RowValidationPolicy.EXACT_MATCH,
       allowedColNames: {
         'Car Name': 'car',
         'Some non existing column': 'non-existing',
@@ -361,6 +366,7 @@ describe('Basic parsing', () => {
       selector: 'table',
       allowedColNames: {
         'Car Name': 'car',
+        'Horse Powers': 'hp',
       },
       extraCols: [
         {
@@ -371,20 +377,44 @@ describe('Basic parsing', () => {
           colName: 'ex2',
           data: 'ex2',
         },
+      ],
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "car;hp;ex1;ex2
+      Audi S5;332;ex1;ex2
+      Alfa Romeo Giulia;500;ex1;ex2
+      BMW X3;215;ex1;ex2
+      Skoda Octavia;120;ex1;ex2
+      ;ex1;ex2"
+    `);
+  });
+
+  it('Handles filtering partial rows', async () => {
+    await page.goto(`${getBaseUrl()}/1.html`);
+
+    const data = await tableParser(page, {
+      selector: 'table',
+      rowValidationPolicy: RowValidationPolicy.EXACT_MATCH,
+      allowedColNames: {
+        'Car Name': 'car',
+        'Horse Powers': 'hp',
+        'Manufacture Year': 'year',
+      },
+      extraCols: [
         {
-          colName: 'ex0',
-          data: 'ex0',
-          position: 0,
+          colName: 'sellerId',
+          data: '123',
         },
       ],
     });
 
     expect(data).toMatchInlineSnapshot(`
-      "ex0;car;ex1;ex2
-      ex0;Audi S5;ex1;ex2
-      ex0;Alfa Romeo Giulia;ex1;ex2
-      ex0;BMW X3;ex1;ex2
-      ex0;Skoda Octavia;ex1;ex2"
+      "car;hp;year;sellerId
+      Audi S5;332;2015;123
+      Alfa Romeo Giulia;500;2020;123
+      BMW X3;215;2017;123
+      Skoda Octavia;120;2012;123"
     `);
   });
 });

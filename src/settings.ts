@@ -1,4 +1,9 @@
-import { FullParserSettings, ParserSettings, ParserSettingsOptional } from './types';
+import {
+  FullParserSettings,
+  ParserSettings,
+  ParserSettingsOptional,
+  RowValidationPolicy,
+} from './types';
 import { InvalidSettingsError } from './errors';
 import { omitUndefined } from './helpers';
 
@@ -7,6 +12,7 @@ export const defaultSettings: ParserSettingsOptional = {
   withHeader: true,
   csvSeparator: ';',
   newLine: '\n',
+  rowValidationPolicy: RowValidationPolicy.NON_EMPTY,
   rowValidator: () => true,
   rowTransform: () => {},
   asArray: false,

@@ -6,12 +6,19 @@ export interface ExtraCol {
 
 export type GetColumnIndexType = (colName: string) => number;
 
+export enum RowValidationPolicy {
+  NONE = 'NONE',
+  NON_EMPTY = 'NON_EMPTY',
+  EXACT_MATCH = 'EXACT_MATCH',
+}
+
 export type ParserSettingsOptional = {
   temporaryColNames: string[];
   extraCols: ExtraCol[];
   withHeader: boolean;
   csvSeparator: string;
   newLine: string;
+  rowValidationPolicy: RowValidationPolicy;
   rowValidator: (
     row: string[],
     getColumnIndex: GetColumnIndexType,
