@@ -420,20 +420,57 @@ describe('Basic parsing', () => {
     `);
   });
 
-  it('Parses large HTML table', async () => {
-    await page.goto(`${getBaseUrl()}/large-table.html`);
+  it.only('Handles aggregation', async () => {
+    await page.goto(`${getBaseUrl()}/2.html`);
 
     const data = await tableParser(page, {
-      selector: 'table',
+      selector: '#employee-overview',
       asArray: false,
-      rowValidationPolicy: RowValidationPolicy.NON_EMPTY,
       allowedColNames: {
-        H: 'first',
-        V: 'cond',
-        N: 'last',
+        'Employee Name': 'name',
+        'Age': 'age',
+      },
+      groupBy: {
+        cols: ['name'],
       },
     });
 
-    expect(data).toBeTruthy();
+    expect(data).toMatchInlineSnapshot(`
+      "name;age
+      John M. Bolduc;32
+      Allan Meron;40
+      Milan Lukeš;33"
+    `);
+  });
+
+  it('Handles aggregation with custom handler', async () => {
+    await page.goto(`${getBaseUrl()}/2.html`);
+
+    const data = await tableParser(page, {
+      selector: '#employee-overview',
+      asArray: false,
+      allowedColNames: {
+        'Employee Name': 'name',
+        'Age': 'age',
+      },
+      groupBy: {
+        cols: ['name'],
+        handler: (rows: string[][], getColumnIndex) => {
+          const ageIndex = getColumnIndex('age');
+
+          // select one with the minimal age
+          return rows.reduce((previous, current) =>
+            previous[ageIndex] < current[ageIndex] ? previous : current,
+          );
+        },
+      },
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "name;age
+      John M. Bolduc;29
+      Allan Meron;40
+      Milan Lukeš;33"
+    `);
   });
 });

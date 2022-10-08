@@ -3,6 +3,7 @@ import { extraColsMapperFactory, getColumnsInfo } from './helpers';
 import { ElementHandle } from 'puppeteer';
 import { InvalidSettingsError } from './errors';
 import PipelineExecutor from './pipelineExecutor';
+import { groupBy } from './aggregations';
 export function parseTableFactory(settings: FullParserSettings) {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
 
@@ -16,15 +17,11 @@ export function parseTableFactory(settings: FullParserSettings) {
     return table.$$(settings.bodyRowsSelector);
   };
 
-  const getOutputHeaderRow = (excludedKeyIndexes: number[], missingColNames: string[]) => {
+  const getOutputHeaderRow = (missingColNames: string[]) => {
     const headerRowRaw = Object.values(settings.allowedColNames);
     const sortedHeader = extraColsMapper(headerRowRaw, 'colName');
 
-    const headerRow = sortedHeader
-      .filter((_, index) => !excludedKeyIndexes.includes(index))
-      .filter((key) => !missingColNames.includes(key));
-
-    return settings.rowValuesAsArray ? headerRow : headerRow.join(settings.csvSeparator);
+    return sortedHeader.filter((key) => !missingColNames.includes(key));
   };
 
   const getRowStructureValidator = (allowedIndexes: Record<string, number>) => {
@@ -82,24 +79,29 @@ export function parseTableFactory(settings: FullParserSettings) {
       bodyRows.reverse();
     }
 
-    const finalRows = new PipelineExecutor<
-      string[][],
-      typeof settings.rowValuesAsArray extends true ? string[][] : string[]
-    >()
+    let parsedRows = new PipelineExecutor<string[][], string[][]>()
       .addFilter(getRowStructureValidator(indexes.allowed))
       .addMap((row) => extraColsMapper(row, 'data'))
       .addFilter((row, index, rows) => settings.rowValidator(row, getColumnIndex, index, rows))
       .addMap((row) => row.map((cell, index) => settings.colParser(cell, index, getColumnIndex)))
       .addTransform((row) => settings.rowTransform(row, getColumnIndex))
-      .addMap((row) => row.filter((_, index: number) => !indexes.excluded.includes(index)))
-      .addMap((row) => (settings.rowValuesAsArray ? row : row.join(settings.csvSeparator)))
       .execute(await Promise.all(bodyRows.map(getRowsData(indexes.allowed))));
 
-    if (addHeader) {
-      const headerRow = getOutputHeaderRow(indexes.excluded, missingColNames);
-      finalRows.unshift(headerRow as string);
+    if (settings.groupBy) {
+      parsedRows = groupBy(parsedRows, settings.groupBy, getColumnIndex);
     }
 
-    return finalRows;
+    if (addHeader) {
+      const headerRow = getOutputHeaderRow(missingColNames);
+      parsedRows.unshift(headerRow);
+    }
+
+    return new PipelineExecutor<
+      string[][],
+      typeof settings.rowValuesAsArray extends true ? string[][] : string[]
+    >()
+      .addMap((row) => row.filter((_, index: number) => !indexes.excluded.includes(index)))
+      .addMap((row) => (settings.rowValuesAsArray ? row : row.join(settings.csvSeparator)))
+      .execute(parsedRows);
   };
 }

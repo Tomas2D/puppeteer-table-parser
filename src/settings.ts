@@ -13,6 +13,7 @@ export const defaultSettings: ParserSettingsOptional = {
   csvSeparator: ';',
   newLine: '\n',
   rowValidationPolicy: RowValidationPolicy.NON_EMPTY,
+  groupBy: undefined,
   rowValidator: () => true,
   rowTransform: () => {},
   asArray: false,
@@ -80,6 +81,15 @@ export function validateSettings(
       throw new InvalidSettingsError(
         `'${optionalColName}' in 'optionalColNames' does not exists in 'allowedColNames'!`,
       );
+    }
+  }
+
+  if (settings.groupBy) {
+    if (!Array.isArray(settings.groupBy.cols)) {
+      throw new InvalidSettingsError(`Columns in "groupBy" field must be typeof array`);
+    }
+    if (settings.groupBy.handler && typeof settings.groupBy.handler !== 'function') {
+      throw new InvalidSettingsError(`Passed handler to the "groupBy" is not a function`);
     }
   }
 }

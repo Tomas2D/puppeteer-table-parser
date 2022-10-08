@@ -10,6 +10,7 @@ This library brings you abstraction between `puppeteer` and `page context`.
 - ✨ Respect the defined order of columns.
 - ✨ Appending custom columns with custom data.
 - ✨ Custom sanitization of data in cells.
+- ✨ Group and Aggregate data by your own function.
 - ✨ Merge data from two independent tables into one structure.
 - ✨ Handles invalid HTML structure
 - ✨ And much more!
@@ -39,6 +40,10 @@ interface ParserSettings {
   csvSeparator?: string; // (default: ';')
   newLine?: string; // (default: '\n')
   rowValidationPolicy?: RowValidationPolicy; // (default: 'NON_EMPTY')
+  groupBy?: {
+    cols: string[];
+    handler?: (rows: string[][], getColumnIndex: GetColumnIndexType) => string[];
+  }
   rowValidator: (
     row: string[],
     getColumnIndex: GetColumnIndexType,
@@ -63,9 +68,10 @@ interface ParserSettings {
 5. Run `rowValidator` function for every table row.
 6. Run `colParser` for every cell in a row.
 7. Run `rowTransform` function for each row.
-8. Add processed row to a temp array result.
-9. Add `header` column if `withHeader` property is `true`.
-10. Merge partial results and return them.
+8. Group results into buckets (`groupBy.cols`) property and pick the aggregated rows.
+9. Add processed row to a temp array result. 
+10. 10.Add `header` column if `withHeader` property is `true`.
+11. Merge partial results and return them.
 
 ## Examples
 
@@ -207,12 +213,27 @@ await tableParser(page, {
 });
 ```
 
-For more, look at `test` folder! 🙈
+***Grouping and Aggregating**
+```typescript
+await tableParser(page, {
+  selector: '#my-table',
+  allowedColNames: {
+    'Employee Name': 'name',
+    'Age': 'age',
+  },
+  groupBy: {
+    cols: ['name'],
+    handler: (rows: string[][], getColumnIndex) => {
+      const ageIndex = getColumnIndex('age');
 
-## TODO
+      // select one with the minimal age
+      return rows.reduce((previous, current) =>
+        previous[ageIndex] < current[ageIndex] ? previous : current,
+      );
+    },
+  }
+});
+```
 
-- [X] Add more examples
-- [X] Add tests
-- [X] Describe interfaces
-- [ ] Show merging table structures
+For more, look at the `test` folder! 🙈
 

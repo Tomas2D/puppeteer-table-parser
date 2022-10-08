@@ -12,6 +12,11 @@ export enum RowValidationPolicy {
   EXACT_MATCH = 'EXACT_MATCH',
 }
 
+export type GroupByOptions = {
+  cols: string[];
+  handler?: (rows: string[][], getColumnIndex: GetColumnIndexType) => string[];
+};
+
 export type ParserSettingsOptional = {
   temporaryColNames: string[];
   extraCols: ExtraCol[];
@@ -19,6 +24,7 @@ export type ParserSettingsOptional = {
   csvSeparator: string;
   newLine: string;
   rowValidationPolicy: RowValidationPolicy;
+  groupBy: GroupByOptions;
   rowValidator: (
     row: string[],
     getColumnIndex: GetColumnIndexType,
