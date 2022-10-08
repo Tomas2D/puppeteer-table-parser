@@ -1,5 +1,23 @@
 # Changelog
 
+<a name="1.9.0"></a>
+## 1.9.0 (2022-10-08)
+
+### Added
+
+- ✨ Add custom aggregations support [[5ff578c](https://github.com/Tomas2D/puppeteer-table-parser/commit/5ff578cf6d4bb02061fe38e54b76f021332c5f9a)]
+
+### Changed
+
+- ⚡ Improve performance by aggregating pipeline transformations [[dd5eb36](https://github.com/Tomas2D/puppeteer-table-parser/commit/dd5eb3624b06c2733a1dd1edcbd16726a3c29885)]
+
+### Miscellaneous
+
+-  Merge pull request [#30](https://github.com/Tomas2D/puppeteer-table-parser/issues/30) from Tomas2D/dependabot/npm_and_yarn/typescript-4.8.4 [[b01417b](https://github.com/Tomas2D/puppeteer-table-parser/commit/b01417bbb0936deecf1d88876d140ee00f53d3d7)]
+- 📝 Mention rowValidationPolicy in README [[f61c599](https://github.com/Tomas2D/puppeteer-table-parser/commit/f61c599e4e886a1fbe4e3be5c7744b794376bafb)]
+-  Bump typescript from 4.8.3 to 4.8.4 [[cf8998c](https://github.com/Tomas2D/puppeteer-table-parser/commit/cf8998c84662d177a53a0f9a5d913b1cdb66d1c4)]
+
+
 <a name="1.8.0"></a>
 ## 1.8.0 (2022-10-05)
 
