@@ -26,7 +26,7 @@ export const defaultSettings: ParserSettingsOptional = {
   bodyRowsSelector: 'tbody tr',
 };
 
-export function preprocessSettings(options: ParserSettings): Required<ParserSettings> {
+export function preprocessSettings(options: ParserSettings): FullParserSettings {
   const settings: FullParserSettings = {
     ...defaultSettings,
     ...omitUndefined(options),
@@ -37,8 +37,8 @@ export function preprocessSettings(options: ParserSettings): Required<ParserSett
 }
 
 export function validateSettings(
-  settings: Required<ParserSettings>,
-): asserts settings is Required<ParserSettings> {
+  settings: FullParserSettings,
+): asserts settings is FullParserSettings {
   const { extraCols, temporaryColNames, allowedColNames } = settings;
 
   const hasConflict = extraCols

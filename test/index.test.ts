@@ -4,6 +4,8 @@ import { createServer, getBaseUrl } from './createServer';
 import { Browser, launch, Page } from 'puppeteer';
 import tableParser, { RowValidationPolicy } from '../src';
 
+jest.setTimeout(60 * 1000 * 1000);
+
 describe('Basic parsing', () => {
   let server: Server;
   let browser: Browser;
@@ -416,5 +418,22 @@ describe('Basic parsing', () => {
       BMW X3;215;2017;123
       Skoda Octavia;120;2012;123"
     `);
+  });
+
+  it('Parses large HTML table', async () => {
+    await page.goto(`${getBaseUrl()}/large-table.html`);
+
+    const data = await tableParser(page, {
+      selector: 'table',
+      asArray: false,
+      rowValidationPolicy: RowValidationPolicy.NON_EMPTY,
+      allowedColNames: {
+        H: 'first',
+        V: 'cond',
+        N: 'last',
+      },
+    });
+
+    expect(data).toBeTruthy();
   });
 });

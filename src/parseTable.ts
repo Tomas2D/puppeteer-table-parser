@@ -1,11 +1,10 @@
 import { FullParserSettings, RowValidationPolicy } from './types';
-import { diffFromSource, extraColsMapperFactory } from './helpers';
+import { extraColsMapperFactory, getColumnsInfo } from './helpers';
 import { ElementHandle } from 'puppeteer';
-import { InvalidColumnError, InvalidSettingsError, MissingRequiredColumnsError } from './errors';
-
+import { InvalidSettingsError } from './errors';
+import PipelineExecutor from './pipelineExecutor';
 export function parseTableFactory(settings: FullParserSettings) {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
-  const allowedColNamesKeys = Object.keys(settings.allowedColNames);
 
   const getHeaderRows = (table: ElementHandle) => {
     return settings.headerRowsSelector
@@ -17,16 +16,13 @@ export function parseTableFactory(settings: FullParserSettings) {
     return table.$$(settings.bodyRowsSelector);
   };
 
-  const getOutputHeaderRow = (
-    excludedKeyIndexes: number[],
-    nonFoundedColNames: FullParserSettings['allowedColNames'],
-  ) => {
+  const getOutputHeaderRow = (excludedKeyIndexes: number[], missingColNames: string[]) => {
     const headerRowRaw = Object.values(settings.allowedColNames);
     const sortedHeader = extraColsMapper(headerRowRaw, 'colName');
 
     const headerRow = sortedHeader
       .filter((_, index) => !excludedKeyIndexes.includes(index))
-      .filter((key) => !Object.values(nonFoundedColNames).includes(key));
+      .filter((key) => !missingColNames.includes(key));
 
     return settings.rowValuesAsArray ? headerRow : headerRow.join(settings.csvSeparator);
   };
@@ -39,13 +35,12 @@ export function parseTableFactory(settings: FullParserSettings) {
       return (rows: string[]) => rows.length > 0;
     }
     if (settings.rowValidationPolicy === RowValidationPolicy.EXACT_MATCH) {
-      const indexesCount = Object.keys(allowedIndexes).length;
-      return (rows: string[]) => rows.length === indexesCount;
+      return (rows: string[]) => rows.length === Object.keys(allowedIndexes).length;
     }
     throw new InvalidSettingsError('Unknown mode for the "rowValidationPolicy"');
   };
 
-  const filterSortCols =
+  const getRowsData =
     (allowedIndexes: Record<string, number>) =>
     (row: ElementHandle): Promise<string[]> =>
       row.$$eval(
@@ -75,87 +70,36 @@ export function parseTableFactory(settings: FullParserSettings) {
       return [];
     }
 
-    const headerRow: ElementHandle =
-      headerRows.length > 0 ? headerRows.shift()! : bodyRows.shift()!;
+    const headerRow: ElementHandle = headerRows.length > 0 ? headerRows.shift() : bodyRows.shift();
+
+    const { indexes, getColumnIndex, missingColNames } = await getColumnsInfo(
+      settings,
+      headerRow,
+      extraColsMapper,
+    );
 
     if (settings.reverseTraversal) {
       bodyRows.reverse();
     }
 
-    // Will be updated during parsing and not found columns will be deleted
-    const nonFoundedColNames = { ...settings.allowedColNames };
-
-    // Sorted by finding which was first visited
-    // is index in which we traverse the table, second is final position
-    const allowedIndexes: Record<string, number> = (
-      await headerRow.$$eval(
-        'td,th',
-        (cells: Element[], newLine: string) => {
-          return cells.map((cell) => (cell as HTMLTableCellElement).innerText.split(newLine));
-        },
-        settings.newLine,
-      )
-    ).reduce((acc, text: string[], realIndex: number) => {
-      const colName = String(settings.colFilter(text, realIndex));
-
-      if (settings.allowedColNames.hasOwnProperty(colName)) {
-        delete nonFoundedColNames[colName];
-
-        const desiredIndex = allowedColNamesKeys.findIndex((key) => key === colName);
-        Object.assign(acc, { [realIndex]: desiredIndex });
-      }
-
-      return acc;
-    }, {});
-
-    const missingRequiredColumns = diffFromSource(
-      Object.values(nonFoundedColNames),
-      settings.optionalColNames,
-    );
-    if (missingRequiredColumns.length > 0) {
-      console.warn(`Not matched columns are following entries: `, missingRequiredColumns);
-      throw new MissingRequiredColumnsError(
-        'Number of filtered columns does not match to required columns count!',
-      );
-    }
-
-    const excludedKeyIndexes: number[] = [];
-    const colKeyToIndexWithExcluded: Map<string, number> = new Map<string, number>();
-    extraColsMapper(allowedColNamesKeys, 'colName').forEach((key, index) => {
-      colKeyToIndexWithExcluded.set(key, index);
-      colKeyToIndexWithExcluded.set(settings.allowedColNames[key] || key, index);
-
-      if (settings.temporaryColNames.includes(key)) {
-        excludedKeyIndexes.push(index);
-      }
-    });
-
-    const getColumnIndex = (colName: string): number => {
-      const index = colKeyToIndexWithExcluded.get(colName);
-      if (index === undefined) {
-        throw new InvalidColumnError(`Invalid column name! '${colName}'`);
-      }
-
-      return index;
-    };
-
-    const finalRows = (await Promise.all(bodyRows.map(filterSortCols(allowedIndexes))))
-      .filter(getRowStructureValidator(allowedIndexes))
-      .map((row) => extraColsMapper(row, 'data'))
-      .filter((row, index, rows) => settings.rowValidator(row, getColumnIndex, index, rows))
-      .map((row) => row.map((cell, index) => settings.colParser(cell, index, getColumnIndex)))
-      .map((row) => {
-        settings.rowTransform(row, getColumnIndex);
-
-        const filteredRow = row.filter((_, index) => !excludedKeyIndexes.includes(index));
-        return settings.rowValuesAsArray ? filteredRow : filteredRow.join(settings.csvSeparator);
-      });
+    const finalRows = new PipelineExecutor<
+      string[][],
+      typeof settings.rowValuesAsArray extends true ? string[][] : string[]
+    >()
+      .addFilter(getRowStructureValidator(indexes.allowed))
+      .addMap((row) => extraColsMapper(row, 'data'))
+      .addFilter((row, index, rows) => settings.rowValidator(row, getColumnIndex, index, rows))
+      .addMap((row) => row.map((cell, index) => settings.colParser(cell, index, getColumnIndex)))
+      .addTransform((row) => settings.rowTransform(row, getColumnIndex))
+      .addMap((row) => row.filter((_, index: number) => !indexes.excluded.includes(index)))
+      .addMap((row) => (settings.rowValuesAsArray ? row : row.join(settings.csvSeparator)))
+      .execute(await Promise.all(bodyRows.map(getRowsData(indexes.allowed))));
 
     if (addHeader) {
-      const headerRow = getOutputHeaderRow(excludedKeyIndexes, nonFoundedColNames);
-      finalRows.unshift(headerRow);
+      const headerRow = getOutputHeaderRow(indexes.excluded, missingColNames);
+      finalRows.unshift(headerRow as string);
     }
 
-    return finalRows as typeof settings.rowValuesAsArray extends true ? string[][] : string[];
+    return finalRows;
   };
 }

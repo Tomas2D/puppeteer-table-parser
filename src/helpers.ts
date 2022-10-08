@@ -1,4 +1,7 @@
 import type { ExtraCol, ExtraColsMapper } from './types';
+import type { FullParserSettings } from './types';
+import { ElementHandle } from 'puppeteer';
+import { InvalidColumnError, MissingRequiredColumnsError } from './errors';
 
 export const identity = <T>(value: T): T => value;
 
@@ -13,10 +16,10 @@ export const extraColsMapperFactory = (extraCols: ExtraCol[]): ExtraColsMapper =
       return a.position! - b.position!;
     });
 
-  // Append cols without position
+  // Append columns without a concrete position
   const withoutPos = extraCols.filter((extraCol) => extraCol.position === undefined);
 
-  return (row: string[], key: keyof ExtraCol) => {
+  return (row: string[], key: keyof ExtraCol = 'data') => {
     const newRow = row.slice();
 
     withPos.forEach((extraCol) => {
@@ -26,6 +29,80 @@ export const extraColsMapperFactory = (extraCols: ExtraCol[]): ExtraColsMapper =
     return newRow.concat(withoutPos.map((extraCol) => String(extraCol[key])));
   };
 };
+
+export async function getColumnsInfo(
+  settings: FullParserSettings,
+  headerRow: ElementHandle,
+  extraColsMapper: ReturnType<typeof extraColsMapperFactory>,
+) {
+  const allowedColNamesKeys = Object.keys(settings.allowedColNames);
+
+  // Will be updated during parsing and not found columns will be deleted
+  const missingColNames = { ...settings.allowedColNames };
+
+  // Sorted by finding which was first visited
+  // is index in which we traverse the table, second is final position
+  const allowedIndexes: Record<string, number> = (
+    await headerRow.$$eval(
+      'td,th',
+      (cells: Element[], newLine: string) => {
+        return cells.map((cell) => (cell as HTMLTableCellElement).innerText.split(newLine));
+      },
+      settings.newLine,
+    )
+  ).reduce((acc, text: string[], realIndex: number) => {
+    const colName = String(settings.colFilter(text, realIndex));
+
+    if (settings.allowedColNames.hasOwnProperty(colName)) {
+      delete missingColNames[colName];
+
+      const desiredIndex = allowedColNamesKeys.findIndex((key) => key === colName);
+      Object.assign(acc, { [realIndex]: desiredIndex });
+    }
+
+    return acc;
+  }, {});
+
+  const missingRequiredColumns = diffFromSource(
+    Object.values(missingColNames),
+    settings.optionalColNames,
+  );
+  if (missingRequiredColumns.length > 0) {
+    console.warn(`Not matched columns are following entries: `, missingRequiredColumns);
+    throw new MissingRequiredColumnsError(
+      'Number of filtered columns does not match to required columns count!',
+    );
+  }
+
+  const excludedKeyIndexes: number[] = [];
+  const colKeyToIndexWithExcluded: Map<string, number> = new Map<string, number>();
+  extraColsMapper(allowedColNamesKeys, 'colName').forEach((key, index) => {
+    colKeyToIndexWithExcluded.set(key, index);
+    colKeyToIndexWithExcluded.set(settings.allowedColNames[key] || key, index);
+
+    if (settings.temporaryColNames.includes(key)) {
+      excludedKeyIndexes.push(index);
+    }
+  });
+
+  const getColumnIndex = (colName: string): number => {
+    const index = colKeyToIndexWithExcluded.get(colName);
+    if (index === undefined) {
+      throw new InvalidColumnError(`Invalid column name! '${colName}'`);
+    }
+
+    return index;
+  };
+
+  return {
+    indexes: {
+      allowed: allowedIndexes,
+      excluded: excludedKeyIndexes,
+    },
+    missingColNames: Object.values(missingColNames),
+    getColumnIndex,
+  };
+}
 
 export const diffFromSource = <T>(source: T[], target: T[]): T[] => {
   return source.filter((x) => !target.includes(x));
