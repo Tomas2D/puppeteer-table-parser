@@ -420,7 +420,7 @@ describe('Basic parsing', () => {
     `);
   });
 
-  it.only('Handles aggregation', async () => {
+  it('Handles aggregation', async () => {
     await page.goto(`${getBaseUrl()}/2.html`);
 
     const data = await tableParser(page, {
@@ -472,5 +472,20 @@ describe('Basic parsing', () => {
       Allan Meron;40
       Milan Lukeš;33"
     `);
+  });
+
+  it('Parses a large HTML table', async () => {
+    await page.goto(`${getBaseUrl()}/large-table.html`);
+
+    const data = await tableParser(page, {
+      selector: 'table',
+      asArray: false,
+      allowedColNames: {
+        A: 'first',
+        B: 'second',
+      },
+    });
+
+    expect(data).toBeTruthy();
   });
 });
