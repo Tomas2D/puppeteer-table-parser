@@ -22,23 +22,23 @@ describe('Basic parsing', () => {
 
     const merged = mergeParserSettings(configPartial, configExample);
     expect(merged).toMatchInlineSnapshot(`
-      Object {
-        "allowedColNames": Object {
+      {
+        "allowedColNames": {
           "manufacture-year": "year",
         },
-        "extraCols": Array [
-          Object {
+        "extraCols": [
+          {
             "colName": "car",
             "data": "",
             "position": 0,
           },
-          Object {
+          {
             "colName": "hp",
             "data": "",
             "position": 1,
           },
         ],
-        "temporaryColNames": Array [],
+        "temporaryColNames": [],
       }
     `);
   });
@@ -67,17 +67,17 @@ describe('Basic parsing', () => {
 
     const merged = mergeParserSettings(configPartial, configExample);
     expect(merged).toMatchInlineSnapshot(`
-      Object {
-        "allowedColNames": Object {
+      {
+        "allowedColNames": {
           "car-name": "car",
         },
-        "extraCols": Array [
-          Object {
+        "extraCols": [
+          {
             "colName": "year",
             "data": "2021",
           },
         ],
-        "temporaryColNames": Array [],
+        "temporaryColNames": [],
       }
     `);
   });
@@ -103,13 +103,13 @@ describe('Basic parsing', () => {
 
     const merged = mergeParserSettings(configPartial, configExample, ['horse-powers']);
     expect(merged).toMatchInlineSnapshot(`
-      Object {
-        "allowedColNames": Object {
+      {
+        "allowedColNames": {
           "car-name": "car",
           "horse-powers-hp": "hp",
         },
-        "extraCols": Array [],
-        "temporaryColNames": Array [],
+        "extraCols": [],
+        "temporaryColNames": [],
       }
     `);
   });

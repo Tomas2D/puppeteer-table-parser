@@ -42,7 +42,7 @@ describe('PipelineExecutor class', () => {
     executor.addMap((row) => row.join(';'));
     executor.addFilter((row) => row.includes('a'));
     expect(executor.execute(input)).toMatchInlineSnapshot(`
-      Array [
+      [
         "10;a;b",
         "13;a;c",
         "14;a;c",

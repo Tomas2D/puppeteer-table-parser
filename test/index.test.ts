@@ -79,7 +79,7 @@ describe('Basic parsing', () => {
     });
 
     expect(data).toMatchInlineSnapshot(`
-      Array [
+      [
         "car;hp;year",
         "Audi S5;332;2015",
         "Alfa Romeo Giulia;500;2020",
@@ -104,33 +104,33 @@ describe('Basic parsing', () => {
     });
 
     expect(data).toMatchInlineSnapshot(`
-      Array [
-        Array [
+      [
+        [
           "car",
           "hp",
           "year",
         ],
-        Array [
+        [
           "Audi S5",
           "332",
           "2015",
         ],
-        Array [
+        [
           "Alfa Romeo Giulia",
           "500",
           "2020",
         ],
-        Array [
+        [
           "BMW X3",
           "215",
           "2017",
         ],
-        Array [
+        [
           "Skoda Octavia",
           "120",
           "2012",
         ],
-        Array [
+        [
           "",
         ],
       ]

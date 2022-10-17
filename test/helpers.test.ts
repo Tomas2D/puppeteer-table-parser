@@ -10,9 +10,9 @@ describe('Helper utils', () => {
     };
 
     expect(omitUndefined(settings)).toMatchInlineSnapshot(`
-      Object {
+      {
         "asArray": true,
-        "temporaryColNames": Array [],
+        "temporaryColNames": [],
       }
     `);
   });
