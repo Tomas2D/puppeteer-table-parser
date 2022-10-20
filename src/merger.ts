@@ -49,5 +49,3 @@ export const mergeParserSettings = (
 
   return newConfig;
 };
-
-export default mergeParserSettings;
