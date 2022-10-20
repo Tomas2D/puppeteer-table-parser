@@ -1,5 +1,42 @@
 # Changelog
 
+<a name="2.0.0"></a>
+## 2.0.0 (2022-10-20)
+
+### Breaking change
+- no more `default` export, only named one
+
+### Added
+
+- ✅ Add a test case for large HTML table [[565fad3](https://github.com/Tomas2D/puppeteer-table-parser/commit/565fad3a5840763cadb9c5e8fd54c8e2074aa1d8)]
+
+### Changed
+
+- 💬 Update README [[a2494be](https://github.com/Tomas2D/puppeteer-table-parser/commit/a2494be41d163ac83f2bf95ea45644e29a1a488a)]
+- 📌 Pin Node version to 16.17.1 [[0553428](https://github.com/Tomas2D/puppeteer-table-parser/commit/05534286423f7d7cb0eb576bebff7f0219522dbc)]
+- ⬆️ Jest 29.x, Puppeteer 19.x [[4955aae](https://github.com/Tomas2D/puppeteer-table-parser/commit/4955aae2f7da2d489ab6c3ffd103b1e4f4f62699)]
+
+### Miscellaneous
+
+-  Merge pull request [#41](https://github.com/Tomas2D/puppeteer-table-parser/issues/41) from Tomas2D/feat/esm-cjs-bundle [[c8e85f3](https://github.com/Tomas2D/puppeteer-table-parser/commit/c8e85f35711b6d94338daf9c187e8a39e32b43c2)]
+- 📦 Support ESM/CJS bundles [[a69e123](https://github.com/Tomas2D/puppeteer-table-parser/commit/a69e123900011fc4f6cdfe0913b53ff6bd9abc4d)]
+-  👷 Add Node version matrix to pipeline [[96b4e46](https://github.com/Tomas2D/puppeteer-table-parser/commit/96b4e461d0c5300ebca03f02108a9d29aec7555f)]
+-  Merge pull request [#40](https://github.com/Tomas2D/puppeteer-table-parser/issues/40) from Tomas2D/dependabot/npm_and_yarn/jest-29.2.1 [[7512abe](https://github.com/Tomas2D/puppeteer-table-parser/commit/7512abed21c06d4362966180554da7293c89bbb3)]
+-  Bump jest from 29.2.0 to 29.2.1 [[54566c3](https://github.com/Tomas2D/puppeteer-table-parser/commit/54566c322d04f0645623ad664f1f11535530880e)]
+-  Merge pull request [#39](https://github.com/Tomas2D/puppeteer-table-parser/issues/39) from Tomas2D/dependabot/npm_and_yarn/typescript-eslint/parser-5.40.1 [[3f6a787](https://github.com/Tomas2D/puppeteer-table-parser/commit/3f6a78787ca20591837207c64600be8078b29037)]
+-  Merge pull request [#38](https://github.com/Tomas2D/puppeteer-table-parser/issues/38) from Tomas2D/dependabot/npm_and_yarn/typescript-eslint/eslint-plugin-5.40.1 [[37b98f2](https://github.com/Tomas2D/puppeteer-table-parser/commit/37b98f2d665b26db76d43462a6f448e082511b7c)]
+-  Bump @typescript-eslint/parser from 5.40.0 to 5.40.1 [[1163ccd](https://github.com/Tomas2D/puppeteer-table-parser/commit/1163ccd36978587d01d9f70cf01351c0cd77945c)]
+-  Bump @typescript-eslint/eslint-plugin from 5.40.0 to 5.40.1 [[8f5378c](https://github.com/Tomas2D/puppeteer-table-parser/commit/8f5378c3cb71046d7ceadba12a425788042fa1dc)]
+-  Merge pull request [#36](https://github.com/Tomas2D/puppeteer-table-parser/issues/36) from Tomas2D/dependabot/npm_and_yarn/typescript-eslint/parser-5.40.0 [[fd45b85](https://github.com/Tomas2D/puppeteer-table-parser/commit/fd45b858fd264cb76ea0c8f83b6ff332b870cc52)]
+-  Merge pull request [#33](https://github.com/Tomas2D/puppeteer-table-parser/issues/33) from Tomas2D/dependabot/npm_and_yarn/eslint-8.25.0 [[3eabade](https://github.com/Tomas2D/puppeteer-table-parser/commit/3eabade42144fa6dd78f318ade2f94e3163c5360)]
+-  Merge pull request [#35](https://github.com/Tomas2D/puppeteer-table-parser/issues/35) from Tomas2D/dependabot/npm_and_yarn/typescript-eslint/eslint-plugin-5.40.0 [[7a622fb](https://github.com/Tomas2D/puppeteer-table-parser/commit/7a622fb5b8017a423bea643fbf1b2f24368264cf)]
+-  Bump eslint from 8.24.0 to 8.25.0 [[7571254](https://github.com/Tomas2D/puppeteer-table-parser/commit/7571254e47e355482f98d52c69ed82b0b565d95b)]
+-  Bump @typescript-eslint/parser from 5.39.0 to 5.40.0 [[6a3e092](https://github.com/Tomas2D/puppeteer-table-parser/commit/6a3e0921120e0fd1fa1d912460599ac3920f7f56)]
+-  Bump @typescript-eslint/eslint-plugin from 5.39.0 to 5.40.0 [[97b5593](https://github.com/Tomas2D/puppeteer-table-parser/commit/97b5593934ac265111c13d1c537f6c543351c32d)]
+-  Merge pull request [#34](https://github.com/Tomas2D/puppeteer-table-parser/issues/34) from Tomas2D/dependabot/npm_and_yarn/express-4.18.2 [[212a49a](https://github.com/Tomas2D/puppeteer-table-parser/commit/212a49a310e4cf476ef60d914dca1caba81741d0)]
+-  Bump express from 4.18.1 to 4.18.2 [[9a52e81](https://github.com/Tomas2D/puppeteer-table-parser/commit/9a52e81e037c11f21bf20d035d15b522900d092c)]
+
+
 <a name="1.9.0"></a>
 ## 1.9.0 (2022-10-08)
 
