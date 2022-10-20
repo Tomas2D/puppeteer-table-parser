@@ -7,10 +7,19 @@
     "parsing html tables"
   ],
   "version": "1.9.0",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js",
+      "import": "./dist/index.js"
+    }
+  },
   "files": [
-    "lib"
+    "dist"
   ],
   "homepage": "https://github.com/Tomas2D/puppeteer-table-parser#readme",
   "repository": {
@@ -24,7 +33,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "rm -Rf lib; tsc -p tsconfig.build.json",
+    "build": "rm -Rf dist; tsup",
+    "watch": "yarn build -- --watch src",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "changelog": "npx gitmoji-changelog",
@@ -50,6 +60,7 @@
     "prettier": "^2.2.1",
     "puppeteer": "^19.0.0",
     "ts-jest": "^29.0.3",
+    "tsup": "^6.3.0",
     "typescript": "^4.8.4"
   },
   "resolutions": {

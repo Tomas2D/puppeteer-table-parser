@@ -2,7 +2,7 @@ import { FullParserSettings, RowValidationPolicy } from './types';
 import { extraColsMapperFactory, getColumnsInfo } from './helpers';
 import { ElementHandle } from 'puppeteer';
 import { InvalidSettingsError } from './errors';
-import PipelineExecutor from './pipelineExecutor';
+import { PipelineExecutor } from './pipelineExecutor';
 import { groupBy } from './aggregations';
 export function parseTableFactory(settings: FullParserSettings) {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);

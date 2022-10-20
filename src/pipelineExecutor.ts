@@ -23,7 +23,7 @@ type Unwrapped<T> = T extends Array<infer R> ? R : T;
 
 export type IOperation<T> = IFilterOperation<T> | IMapOperation<T> | ITransformOperation<T>;
 
-class PipelineExecutor<T extends unknown[], R extends unknown[]> {
+export class PipelineExecutor<T extends unknown[], R extends unknown[]> {
   private readonly operations: IOperation<any>[] = [];
 
   public execute(input: T): R {
@@ -87,5 +87,3 @@ class PipelineExecutor<T extends unknown[], R extends unknown[]> {
     });
   }
 }
-
-export default PipelineExecutor;

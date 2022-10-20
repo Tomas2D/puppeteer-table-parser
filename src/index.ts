@@ -69,8 +69,6 @@ export async function tableParser<T extends ParserSettings>(
   return settings.asArray ? filteredDataTables : filteredDataTables.join(settings.newLine);
 }
 
-export default tableParser;
-
 export { mergeParserSettings };
 export * from './types';
 export * from './errors';

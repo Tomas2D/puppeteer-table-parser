@@ -2,7 +2,7 @@ import { Server } from 'http';
 import { promisify } from 'util';
 import { createServer, getBaseUrl } from './createServer';
 import { Browser, launch, Page } from 'puppeteer';
-import tableParser, { RowValidationPolicy } from '../src';
+import { tableParser, RowValidationPolicy } from '../src';
 
 jest.setTimeout(60 * 1000 * 1000);
 

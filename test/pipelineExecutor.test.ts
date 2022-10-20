@@ -1,4 +1,4 @@
-import PipelineExecutor from '../src/pipelineExecutor';
+import { PipelineExecutor } from '../src/pipelineExecutor';
 
 describe('PipelineExecutor class', () => {
   it('Empty case', () => {

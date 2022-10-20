@@ -1,5 +1,5 @@
 import { MergeParserSettings } from '../src/types';
-import mergeParserSettings from '../src/merger';
+import { mergeParserSettings } from '../src/merger';
 
 describe('Basic parsing', () => {
   it('Merge allowedColNames', () => {
