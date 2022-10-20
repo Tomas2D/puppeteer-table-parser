@@ -17,11 +17,19 @@ This library brings you abstraction between `puppeteer` and `page context`.
 
 ## Installation
 
-```
+```shell
 yarn add puppeteer-table-parser
 ```
-```
+```shell
 npm install puppeteer-table-parser
+```
+
+```typescript
+// CommonJS
+const { tableParser } = require('puppeteer-table-parser')
+
+// ESM / Typescript
+import { tableParser } from 'puppeteer-table-parser'
 ```
 
 ## API
@@ -70,7 +78,7 @@ interface ParserSettings {
 7. Run `rowTransform` function for each row.
 8. Group results into buckets (`groupBy.cols`) property and pick the aggregated rows.
 9. Add processed row to a temp array result. 
-10. 10.Add `header` column if `withHeader` property is `true`.
+10. Add `header` column if `withHeader` property is `true`.
 11. Merge partial results and return them.
 
 ## Examples
@@ -80,6 +88,8 @@ interface ParserSettings {
 **Basic example** (the simple table where we want to parse three columns without editing)
 
 ```typescript
+import { tableParser } from 'puppeteer-table-parser'
+
 await tableParser(page, {
   selector: 'table',
   allowedColNames: {
@@ -101,6 +111,8 @@ Skoda Octavia;120;2012
 **Basic example** with custom column name parsing:
 
 ```typescript
+import { tableParser } from 'puppeteer-table-parser'
+
 await tableParser(page, {
   selector: 'table',
   colFilter: (value: string[]) => {
@@ -128,6 +140,8 @@ Skoda Octavia;120;2012
 **Basic example** with row validation and using temporary column.
 
 ```typescript
+import { tableParser } from 'puppeteer-table-parser'
+
 await tableParser(page, {
   selector: 'table',
   allowedColNames: {
@@ -155,6 +169,8 @@ Uses custom temporary column for filtering. It uses an extra column with custom
 position to be filled on a fly.
 
 ```typescript
+import { tableParser } from 'puppeteer-table-parser'
+
 await tableParser(page, {
   selector: 'table',
   allowedColNames: {
@@ -203,6 +219,8 @@ your columns are desired, but they are not available in a table.
 You can easily add an exception for them via `optionalColNames` property.
 
 ```typescript
+import { tableParser } from 'puppeteer-table-parser'
+
 await tableParser(page, {
   selector: 'table',
   allowedColNames: {
@@ -213,8 +231,10 @@ await tableParser(page, {
 });
 ```
 
-***Grouping and Aggregating**
+**Grouping and Aggregating**
 ```typescript
+import { tableParser } from 'puppeteer-table-parser'
+
 await tableParser(page, {
   selector: '#my-table',
   allowedColNames: {
