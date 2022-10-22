@@ -12,7 +12,8 @@ This library brings you abstraction between `puppeteer` and `page context`.
 - ✨ Custom sanitization of data in cells.
 - ✨ Group and Aggregate data by your own function.
 - ✨ Merge data from two independent tables into one structure.
-- ✨ Handles invalid HTML structure
+- ✨ Handles invalid HTML structure.
+- ✨ Retrieve results as CSV or array of plain JS objects.
 - ✨ And much more!
 
 ## Installation
@@ -37,7 +38,7 @@ import { tableParser } from 'puppeteer-table-parser'
 ```typescript
 interface ParserSettings {
   selector: string; // CSS selector
-  allowedColNames: Record<strings, string>; // key = input name, value = output name)
+  allowedColNames: Record<string, string>; // key = input name, value = output name)
 
   headerRowsSelector?: string | null; // (default: 'thead tr', null ignores table's header selection)
   bodyRowsSelector?: string;  // (default: 'tbody tr')
@@ -61,6 +62,7 @@ interface ParserSettings {
   rowTransform?: (row: string[], getColumnIndex: GetColumnIndexType) => void;
   asArray?: boolean; // (default: false)
   rowValuesAsArray?: boolean; // (default: false)
+  rowValuesAsObject?: boolean; // (default: false)
   colFilter?: (elText: string[], index: number) => string; // (default: (txt: string) => txt.join(' '))
   colParser?: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string; // (default: (txt: string) => txt.trim())
   optionalColNames?: string[]; // (default: [])

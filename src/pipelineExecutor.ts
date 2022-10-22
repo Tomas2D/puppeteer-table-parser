@@ -25,8 +25,23 @@ export type IOperation<T> = IFilterOperation<T> | IMapOperation<T> | ITransformO
 
 export class PipelineExecutor<T extends unknown[], R extends unknown[]> {
   private readonly operations: IOperation<any>[] = [];
+  constructor(private _input?: Promise<T> | T) {}
 
-  public execute(input: T): R {
+  public execute(input?: Promise<T> | T) {
+    this._input = input || this._input || ([] as T);
+
+    function isPromise(p: unknown): p is Promise<Awaited<T>> {
+      return p && Object.prototype.toString.call(p) === '[object Promise]';
+    }
+
+    if (isPromise(this._input)) {
+      return this._input.then((x) => this._execute(x));
+    } else {
+      return this._execute(this._input as Awaited<T>);
+    }
+  }
+
+  private _execute(input: T): R {
     const acc: unknown[] = [];
 
     for (let index = 0; index < input.length; index++) {

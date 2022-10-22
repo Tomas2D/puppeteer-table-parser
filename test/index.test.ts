@@ -142,6 +142,32 @@ describe('Basic parsing', () => {
       tableParser(page, {
         selector: 'table',
         asArray: false,
+        // @ts-expect-error intended
+        rowValuesAsArray: true,
+        allowedColNames: {
+          'car-name': 'car',
+        },
+      }),
+    ).rejects.toThrowError();
+
+    expect(
+      tableParser(page, {
+        selector: 'table',
+        // @ts-expect-error intended
+        rowValuesAsObject: true,
+        // @ts-expect-error intended
+        rowValuesAsArray: true,
+        allowedColNames: {
+          'car-name': 'car',
+        },
+      }),
+    ).rejects.toThrowError();
+
+    expect(
+      tableParser(page, {
+        selector: 'table',
+        rowValuesAsObject: false,
+        // @ts-expect-error intended
         rowValuesAsArray: true,
         allowedColNames: {
           'car-name': 'car',
@@ -487,5 +513,25 @@ describe('Basic parsing', () => {
     });
 
     expect(data).toBeTruthy();
+  });
+
+  it('Returns data as a object', async () => {
+    await page.goto(`${getBaseUrl()}/2.html`);
+
+    const data = await tableParser(page, {
+      selector: '#employee-overview',
+      rowValuesAsObject: true,
+      asArray: true,
+      allowedColNames: {
+        'Employee Name': 'name',
+        'Age': 'age',
+      },
+    });
+
+    expect(data).toBeInstanceOf(Array);
+    data.forEach((row) => {
+      expect(row).toHaveProperty('age');
+      expect(row).toHaveProperty('name');
+    });
   });
 });

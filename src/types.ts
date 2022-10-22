@@ -33,6 +33,7 @@ export type ParserSettingsOptional = {
   ) => boolean;
   rowTransform: (row: string[], getColumnIndex: GetColumnIndexType) => void;
   asArray: boolean;
+  rowValuesAsObject: boolean;
   rowValuesAsArray: boolean;
   colFilter: (elText: string[], index: number) => string;
   colParser: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string;
@@ -56,3 +57,7 @@ export interface MergeParserSettings {
   extraCols: FullParserSettings['extraCols'];
   temporaryColNames: FullParserSettings['temporaryColNames'];
 }
+
+export type OmitOrFalsy<T, K extends keyof T> = Omit<T, K> & {
+  [key in K]?: undefined | false;
+};

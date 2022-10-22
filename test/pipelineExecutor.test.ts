@@ -37,11 +37,11 @@ describe('PipelineExecutor class', () => {
       ['14', 'a', 'c'],
     ];
 
-    const executor = new PipelineExecutor<string[][], string[]>();
+    const executor = new PipelineExecutor<string[][], string[]>(input);
     executor.addFilter((row) => row.length > 0);
     executor.addMap((row) => row.join(';'));
     executor.addFilter((row) => row.includes('a'));
-    expect(executor.execute(input)).toMatchInlineSnapshot(`
+    expect(executor.execute()).toMatchInlineSnapshot(`
       [
         "10;a;b",
         "13;a;c",
