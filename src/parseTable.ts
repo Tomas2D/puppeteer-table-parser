@@ -4,6 +4,8 @@ import { ElementHandle } from 'puppeteer';
 import { InvalidSettingsError } from './errors';
 import { PipelineExecutor } from './pipelineExecutor';
 import { groupBy } from './aggregations';
+import * as mappers from './mappers';
+
 export function parseTableFactory(settings: FullParserSettings) {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
 
@@ -69,7 +71,7 @@ export function parseTableFactory(settings: FullParserSettings) {
 
     const headerRow: ElementHandle = headerRows.length > 0 ? headerRows.shift() : bodyRows.shift();
 
-    const { indexes, getColumnIndex, missingColNames } = await getColumnsInfo(
+    const { indexes, getColumnIndex, getColumnName, missingColNames } = await getColumnsInfo(
       settings,
       headerRow,
       extraColsMapper,
@@ -79,13 +81,15 @@ export function parseTableFactory(settings: FullParserSettings) {
       bodyRows.reverse();
     }
 
-    let parsedRows = new PipelineExecutor<string[][], string[][]>()
+    let parsedRows = await new PipelineExecutor<string[][], string[][]>(
+      Promise.all(bodyRows.map(getRowsData(indexes.allowed))),
+    )
       .addFilter(getRowStructureValidator(indexes.allowed))
       .addMap((row) => extraColsMapper(row, 'data'))
       .addFilter((row, index, rows) => settings.rowValidator(row, getColumnIndex, index, rows))
       .addMap((row) => row.map((cell, index) => settings.colParser(cell, index, getColumnIndex)))
       .addTransform((row) => settings.rowTransform(row, getColumnIndex))
-      .execute(await Promise.all(bodyRows.map(getRowsData(indexes.allowed))));
+      .execute();
 
     if (settings.groupBy) {
       parsedRows = groupBy(parsedRows, settings.groupBy, getColumnIndex);
@@ -96,12 +100,15 @@ export function parseTableFactory(settings: FullParserSettings) {
       parsedRows.unshift(headerRow);
     }
 
-    return new PipelineExecutor<
-      string[][],
-      typeof settings.rowValuesAsArray extends true ? string[][] : string[]
-    >()
-      .addMap((row) => row.filter((_, index: number) => !indexes.excluded.includes(index)))
-      .addMap((row) => (settings.rowValuesAsArray ? row : row.join(settings.csvSeparator)))
-      .execute(parsedRows);
+    const rowOutputMapper = settings.rowValuesAsObject
+      ? mappers.asObject(getColumnName)
+      : settings.rowValuesAsArray
+      ? mappers.asArray()
+      : mappers.asCsv(settings.csvSeparator);
+
+    return new PipelineExecutor<string[][], ReturnType<typeof rowOutputMapper>[]>(parsedRows)
+      .addMap((row) => row.filter((_, index) => !indexes.excluded.includes(index)))
+      .addMap(rowOutputMapper)
+      .execute();
   };
 }

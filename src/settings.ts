@@ -17,6 +17,7 @@ export const defaultSettings: ParserSettingsOptional = {
   rowValidator: () => true,
   rowTransform: () => {},
   asArray: false,
+  rowValuesAsObject: false,
   rowValuesAsArray: false,
   temporaryColNames: [],
   colFilter: (elText) => elText.join(' '),
@@ -32,6 +33,10 @@ export function preprocessSettings(options: ParserSettings): FullParserSettings 
     ...defaultSettings,
     ...omitUndefined(options),
   };
+
+  if (!settings.asArray && (settings.rowValuesAsObject || settings.rowValuesAsArray)) {
+    settings.asArray = false;
+  }
 
   validateSettings(settings);
   return settings;
@@ -91,5 +96,11 @@ export function validateSettings(
     if (settings.groupBy.handler && typeof settings.groupBy.handler !== 'function') {
       throw new InvalidSettingsError(`Passed handler to the "groupBy" is not a function`);
     }
+  }
+
+  if (settings.rowValuesAsObject && settings.rowValuesAsArray) {
+    throw new InvalidSettingsError(
+      `Cannot combine "rowValuesAsObject" with "rowValuesAsArray" options!`,
+    );
   }
 }

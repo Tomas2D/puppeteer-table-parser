@@ -1,5 +1,5 @@
 import { ElementHandle, Page } from 'puppeteer';
-import { ParserSettings, FullParserSettings } from './types';
+import { ParserSettings, FullParserSettings, OmitOrFalsy } from './types';
 import { parseTableFactory } from './parseTable';
 import { mergeParserSettings } from './merger';
 import { preprocessSettings } from './settings';
@@ -28,6 +28,7 @@ export async function tableParser(
   settings: Omit<ParserSettings, 'asArray'> & {
     asArray: true;
     rowValuesAsArray?: false;
+    rowValuesAsObject?: false;
   },
 ): Promise<string[]>;
 export async function tableParser(
@@ -35,13 +36,26 @@ export async function tableParser(
   settings: Omit<ParserSettings, 'asArray' | 'rowValuesAsArray'> & {
     asArray: true;
     rowValuesAsArray: true;
+    rowValuesAsObject?: false;
   },
 ): Promise<string[][]>;
-export async function tableParser(page: Page, options: ParserSettings): Promise<string>;
-export async function tableParser<T extends ParserSettings>(
+export async function tableParser<T extends string>(
   page: Page,
-  options: T,
-): Promise<string | string[] | string[][]> {
+  settings: Omit<
+    ParserSettings,
+    'asArray' | 'rowValuesAsArray' | 'rowValuesAsObject' | 'allowedColNames'
+  > & {
+    asArray: boolean;
+    rowValuesAsObject: true;
+    rowValuesAsArray?: false;
+    allowedColNames: Record<string, T>;
+  },
+): Promise<Record<T, string>[]>;
+export async function tableParser(
+  page: Page,
+  options: OmitOrFalsy<ParserSettings, 'asArray' | 'rowValuesAsObject' | 'rowValuesAsArray'>,
+): Promise<string>;
+export async function tableParser<T extends ParserSettings>(page: Page, options: T) {
   const settings: FullParserSettings = preprocessSettings(options);
 
   const tables: ElementHandle[] = await retrieveTables(page, settings.selector);
@@ -52,11 +66,11 @@ export async function tableParser<T extends ParserSettings>(
 
   const parseTable = parseTableFactory(settings);
 
-  const tableResults = [];
+  const tableResults: Array<Awaited<ReturnType<typeof parseTable>>> = [];
   let headerFound = false;
 
   for (const table of tables) {
-    const withHeader = settings.withHeader && !headerFound;
+    const withHeader = settings.withHeader && !settings.rowValuesAsObject && !headerFound;
     const data = await parseTable(table, withHeader);
 
     if (data.length > 0 && withHeader) {
@@ -66,7 +80,12 @@ export async function tableParser<T extends ParserSettings>(
   }
 
   const filteredDataTables = tableResults.flat().filter(Boolean);
-  return settings.asArray ? filteredDataTables : filteredDataTables.join(settings.newLine);
+
+  if (!settings.asArray) {
+    return filteredDataTables.join(settings.newLine);
+  }
+
+  return filteredDataTables;
 }
 
 export { mergeParserSettings };
