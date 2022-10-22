@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="2.1.0"></a>
+## 2.1.0 (2022-10-22)
+
+### Added
+
+- ✨ Add an option for returning rows as objects [[9ea0aea](https://github.com/Tomas2D/puppeteer-table-parser/commit/9ea0aea03a607d6b5f66ffceda372a0ebb8bdb3b)]
+
+### Miscellaneous
+
+-  Merge pull request [#42](https://github.com/Tomas2D/puppeteer-table-parser/issues/42) from Tomas2D/feat/rows-as-objects [[1197bc2](https://github.com/Tomas2D/puppeteer-table-parser/commit/1197bc20aac79b59f2c012897d99f4c9cf67cb70)]
+
+
 <a name="2.0.0"></a>
 ## 2.0.0 (2022-10-20)
 
