@@ -534,4 +534,23 @@ describe('Basic parsing', () => {
       expect(row).toHaveProperty('name');
     });
   });
+
+  it('Returns only header because no rows passed filter', async () => {
+    await page.goto(`${getBaseUrl()}/2.html`);
+
+    const data = await tableParser(page, {
+      selector: '#employee-overview',
+      rowValidator: () => false,
+      asArray: true,
+      csvSeparator: ',',
+      allowedColNames: {
+        'Employee Name': 'name',
+        'Age': 'age',
+      },
+    });
+
+    expect(data).toBeInstanceOf(Array);
+    expect(data.length).toBe(1);
+    expect(data[0]).toBe('name,age');
+  });
 });
