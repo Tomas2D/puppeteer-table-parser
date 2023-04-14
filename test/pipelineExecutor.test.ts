@@ -22,7 +22,9 @@ describe('PipelineExecutor class', () => {
   });
 
   it('Correctly handle simple filter operation', () => {
-    const executor = new PipelineExecutor().addFilter((r) => r >= 5).addFilter((r) => r >= 10);
+    const executor = new PipelineExecutor<number[], number[]>()
+      .addFilter((r) => r >= 5)
+      .addFilter((r) => r >= 10);
 
     expect(executor.execute([2, 5, 10])).toStrictEqual([10]);
   });
