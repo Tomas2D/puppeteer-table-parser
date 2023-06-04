@@ -14,7 +14,7 @@ describe('Basic parsing', () => {
   beforeAll(async () => {
     server = await createServer();
     browser = await launch({
-      headless: true,
+      headless: 'new',
     });
     page = await browser.newPage();
   });
