@@ -60,7 +60,7 @@
     "prettier": "^2.2.1",
     "puppeteer": "^20.5.0",
     "ts-jest": "^29.0.3",
-    "tsup": "^6.3.0",
+    "tsup": "^7.1.0",
     "typescript": "^5.0.4"
   },
   "resolutions": {
