@@ -20,8 +20,8 @@ describe('Basic parsing', () => {
   });
 
   afterAll(async () => {
-    await promisify(server.close).bind(server)();
     await browser.close();
+    await promisify(server.close).bind(server)();
   });
 
   it('Parse no filters', async () => {
