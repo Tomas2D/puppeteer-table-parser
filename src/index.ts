@@ -1,5 +1,12 @@
 import { ElementHandle, Page } from 'puppeteer';
-import { ParserSettings, FullParserSettings, OmitOrFalsy } from './types';
+import {
+  ParserSettings,
+  FullParserSettings,
+  OmitOrFalsy,
+  ExtraCol,
+  RowTransformFn,
+  RowValidatorFn,
+} from './types';
 import { parseTableFactory } from './parseTable';
 import { mergeParserSettings } from './merger';
 import { preprocessSettings } from './settings';
@@ -39,18 +46,29 @@ export async function tableParser(
     rowValuesAsObject?: false;
   },
 ): Promise<string[][]>;
-export async function tableParser<T extends string>(
+export async function tableParser<T extends string, U extends string, V extends string>(
   page: Page,
   settings: Omit<
     ParserSettings,
-    'asArray' | 'rowValuesAsArray' | 'rowValuesAsObject' | 'allowedColNames'
+    | 'asArray'
+    | 'rowValuesAsArray'
+    | 'rowValuesAsObject'
+    | 'allowedColNames'
+    | 'extraCols'
+    | 'rowTransform'
+    | 'rowValidator'
+    | 'temporaryColNames'
   > & {
     asArray: boolean;
     rowValuesAsObject: true;
     rowValuesAsArray?: false;
-    allowedColNames: Record<string, T>;
+    allowedColNames: Record<V, T>;
+    extraCols?: Array<ExtraCol<U>>;
+    rowTransform?: RowTransformFn<T | U>;
+    rowValidator?: RowValidatorFn<T | U>;
+    temporaryColNames?: Array<V>;
   },
-): Promise<Record<T, string>[]>;
+): Promise<Array<Record<T | U, string>>>;
 export async function tableParser(
   page: Page,
   options: OmitOrFalsy<ParserSettings, 'asArray' | 'rowValuesAsObject' | 'rowValuesAsArray'>,

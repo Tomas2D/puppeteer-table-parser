@@ -1,10 +1,10 @@
-export interface ExtraCol {
-  colName: string;
+export interface ExtraCol<T extends string = string> {
+  colName: T;
   data: string;
   position?: number;
 }
 
-export type GetColumnIndexType = (colName: string) => number;
+export type GetColumnIndexType<T extends string = string> = (colName: T) => number;
 
 export enum RowValidationPolicy {
   NONE = 'NONE',
@@ -17,6 +17,24 @@ export type GroupByOptions = {
   handler?: (rows: string[][], getColumnIndex: GetColumnIndexType) => string[];
 };
 
+export type ColParserFn<T extends string = string> = (
+  value: string,
+  formattedIndex: number,
+  getColumnIndex: GetColumnIndexType<T>,
+) => string;
+
+export type RowTransformFn<T extends string = string> = (
+  row: string[],
+  getColumnIndex: GetColumnIndexType<T>,
+) => void;
+
+export type RowValidatorFn<T extends string = string> = (
+  row: string[],
+  getColumnIndex: GetColumnIndexType<T>,
+  rowIndex: number,
+  rows: Readonly<string[][]>,
+) => boolean;
+
 export type ParserSettingsOptional = {
   temporaryColNames: string[];
   extraCols: ExtraCol[];
@@ -25,18 +43,13 @@ export type ParserSettingsOptional = {
   newLine: string;
   rowValidationPolicy: RowValidationPolicy;
   groupBy: GroupByOptions;
-  rowValidator: (
-    row: string[],
-    getColumnIndex: GetColumnIndexType,
-    rowIndex: number,
-    rows: Readonly<string[][]>,
-  ) => boolean;
-  rowTransform: (row: string[], getColumnIndex: GetColumnIndexType) => void;
+  rowValidator: RowValidatorFn;
+  rowTransform: RowTransformFn;
   asArray: boolean;
   rowValuesAsObject: boolean;
   rowValuesAsArray: boolean;
   colFilter: (elText: string[], index: number) => string;
-  colParser: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string;
+  colParser: ColParserFn;
   optionalColNames: string[];
   reverseTraversal: boolean;
   headerRowsSelector: string | null;
