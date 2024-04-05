@@ -33,7 +33,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "rm -Rf dist; tsup",
+    "build": "rm -Rf dist; tsc --noEmit --project tsconfig.build.json && tsup",
     "watch": "yarn build -- --watch src",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\"",
