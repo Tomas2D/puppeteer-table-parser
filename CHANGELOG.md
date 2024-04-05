@@ -1,5 +1,23 @@
 # Changelog
 
+<a name="2.2.0"></a>
+## 2.2.0 (2024-04-05)
+
+### Added
+
+- ✨ Performance, add custom cell selectors support [[80a8836](https://github.com/Tomas2D/puppeteer-table-parser/commit/80a8836f7aae3be2ff5bc02be1a7f5a4fe4087cc)]
+- 👷 add type check to do the build script [[681b7b9](https://github.com/Tomas2D/puppeteer-table-parser/commit/681b7b99c1a36463094275c80d1adf4f43fb9422)]
+
+### Miscellaneous
+
+-  Merge pull request [#354](https://github.com/Tomas2D/puppeteer-table-parser/issues/354) from Tomas2D/dependabot/npm_and_yarn/express-4.19.2 [[408583b](https://github.com/Tomas2D/puppeteer-table-parser/commit/408583b91f850d4b5acd8560e216f761abb7278e)]
+-  Bump express from 4.19.1 to 4.19.2 [[43d347b](https://github.com/Tomas2D/puppeteer-table-parser/commit/43d347be35864a380b64a9671192130e66f948cd)]
+-  Merge pull request [#350](https://github.com/Tomas2D/puppeteer-table-parser/issues/350) from Tomas2D/dependabot/npm_and_yarn/express-4.19.1 [[40d26f6](https://github.com/Tomas2D/puppeteer-table-parser/commit/40d26f6fcc769b4336abafd8f2e273153aa11348)]
+-  Merge pull request [#351](https://github.com/Tomas2D/puppeteer-table-parser/issues/351) from Tomas2D/dependabot/npm_and_yarn/typescript-5.4.3 [[a646da1](https://github.com/Tomas2D/puppeteer-table-parser/commit/a646da1f2b3d8df9607f838d8c58298e54342147)]
+-  Bump typescript from 5.4.2 to 5.4.3 [[9e0f87a](https://github.com/Tomas2D/puppeteer-table-parser/commit/9e0f87ae016e57689dcee0b529481ad466055b8a)]
+-  Bump express from 4.18.3 to 4.19.1 [[3bdbf2d](https://github.com/Tomas2D/puppeteer-table-parser/commit/3bdbf2d890677d39527aea5a62173c2a47eb6bf2)]
+
+
 <a name="2.1.3"></a>
 ## 2.1.3 (2024-03-08)
 
