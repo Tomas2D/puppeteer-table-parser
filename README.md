@@ -41,7 +41,9 @@ interface ParserSettings {
   allowedColNames: Record<string, string>; // key = input name, value = output name)
 
   headerRowsSelector?: string | null; // (default: 'thead tr', null ignores table's header selection)
+  headerRowsCellSelector?: string; // (default: 'td,th')
   bodyRowsSelector?: string;  // (default: 'tbody tr')
+  bodyRowsCellSelector?: string;  // (default: 'td')
   reverseTraversal?: boolean // (default: false)
   temporaryColNames?: string[]; // (default: []) 
   extraCols?: ExtraCol[]; // (default: [])

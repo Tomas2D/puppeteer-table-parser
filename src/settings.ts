@@ -25,7 +25,9 @@ export const defaultSettings: ParserSettingsOptional = {
   optionalColNames: [],
   reverseTraversal: false,
   headerRowsSelector: 'thead tr',
+  headerRowsCellSelector: 'td,th',
   bodyRowsSelector: 'tbody tr',
+  bodyRowsCellSelector: 'td',
 };
 
 export function preprocessSettings(options: ParserSettings): FullParserSettings {

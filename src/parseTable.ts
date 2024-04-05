@@ -9,14 +9,29 @@ import * as mappers from './mappers';
 export function parseTableFactory(settings: FullParserSettings) {
   const extraColsMapper = extraColsMapperFactory(settings.extraCols);
 
-  const getHeaderRows = (table: ElementHandle) => {
-    return settings.headerRowsSelector
-      ? table.$$(settings.headerRowsSelector)
-      : Promise.resolve([]);
-  };
+  const findHeaderRow = async (
+    table: ElementHandle,
+  ): Promise<{ el: ElementHandle; bodyRowsOffset: number } | null> => {
+    const headerRow = settings.headerRowsSelector
+      ? await table.$(settings.headerRowsSelector)
+      : null;
 
-  const getBodyRows = (table: ElementHandle) => {
-    return table.$$(settings.bodyRowsSelector);
+    if (headerRow) {
+      return {
+        bodyRowsOffset: 0,
+        el: headerRow,
+      };
+    }
+
+    const bodyRow = await table.$(settings.bodyRowsSelector);
+    if (bodyRow) {
+      return {
+        bodyRowsOffset: 1,
+        el: bodyRow,
+      };
+    }
+
+    return null;
   };
 
   const getOutputHeaderRow = (missingColNames: string[]) => {
@@ -39,50 +54,64 @@ export function parseTableFactory(settings: FullParserSettings) {
     throw new InvalidSettingsError('Unknown mode for the "rowValidationPolicy"');
   };
 
-  const getRowsData =
-    (allowedIndexes: Record<string, number>) =>
-    (row: ElementHandle): Promise<string[]> =>
-      row.$$eval(
-        'td',
-        (cells: HTMLElement[], allowedIndexes: Record<string, number>) => {
-          return cells
-            .map((cell, realIndex) => [cell, realIndex])
-            .filter((_, realIndex) => allowedIndexes[realIndex] !== undefined)
+  const getRowsData = async (
+    table: ElementHandle,
+    rowsOffset: number,
+    allowedIndexes: Record<number, number>,
+  ): Promise<string[][]> => {
+    return await table.evaluate(
+      (
+        el,
+        { reverseTraversal, allowedIndexes, bodyRowsSelector, rowsOffset, bodyRowsCellSelector },
+      ) => {
+        const rows = Array.from(el.querySelectorAll(bodyRowsSelector));
+        rows.splice(0, rowsOffset);
+        if (reverseTraversal) {
+          rows.reverse();
+        }
+
+        const allowedIndexesMap = new Map(
+          Object.entries(allowedIndexes).map(([k, v]) => [Number(k), v]),
+        );
+        return rows.map((row) =>
+          Array.from(row.querySelectorAll(bodyRowsCellSelector))
+            .map((cell, realIndex): [Element, number] => [cell, realIndex])
+            .filter((_, realIndex) => allowedIndexesMap.has(realIndex))
             .sort((a, b) => {
-              const indexA = allowedIndexes[a[1] as number];
-              const indexB = allowedIndexes[b[1] as number];
+              const indexA = allowedIndexesMap.get(a[1]);
+              const indexB = allowedIndexesMap.get(b[1]);
 
               return indexA - indexB;
             })
-            .map(([cell]): string => (cell as HTMLElement).innerText);
-        },
+            .map(([cell]): string => (cell as HTMLElement)?.innerText ?? cell?.textContent),
+        );
+      },
+      {
+        reverseTraversal: settings.reverseTraversal,
+        bodyRowsSelector: settings.bodyRowsSelector,
+        bodyRowsCellSelector: settings.bodyRowsCellSelector,
         allowedIndexes,
-      );
+        rowsOffset,
+      },
+    );
+  };
 
   return async (table: ElementHandle, addHeader: boolean) => {
     await table.evaluate((el) => el.scrollIntoView());
 
-    const headerRows: ElementHandle[] = await getHeaderRows(table);
-    const bodyRows: ElementHandle[] = await getBodyRows(table);
-
-    if (headerRows.length === 0 && bodyRows.length === 0) {
+    const header = await findHeaderRow(table);
+    if (!header) {
       return [];
     }
 
-    const headerRow: ElementHandle = headerRows.length > 0 ? headerRows.shift() : bodyRows.shift();
-
     const { indexes, getColumnIndex, getColumnName, missingColNames } = await getColumnsInfo(
       settings,
-      headerRow,
+      header.el,
       extraColsMapper,
     );
 
-    if (settings.reverseTraversal) {
-      bodyRows.reverse();
-    }
-
     let parsedRows = await new PipelineExecutor<string[][], string[][]>(
-      Promise.all(bodyRows.map(getRowsData(indexes.allowed))),
+      await getRowsData(table, header.bodyRowsOffset, indexes.allowed),
     )
       .addFilter(getRowStructureValidator(indexes.allowed))
       .addMap((row) => extraColsMapper(row, 'data'))
@@ -103,8 +132,8 @@ export function parseTableFactory(settings: FullParserSettings) {
     const rowOutputMapper = settings.rowValuesAsObject
       ? mappers.asObject(getColumnName)
       : settings.rowValuesAsArray
-      ? mappers.asArray()
-      : mappers.asCsv(settings.csvSeparator);
+        ? mappers.asArray()
+        : mappers.asCsv(settings.csvSeparator);
 
     return new PipelineExecutor<string[][], ReturnType<typeof rowOutputMapper>[]>(parsedRows)
       .addMap((row) => row.filter((_, index) => !indexes.excluded.includes(index)))

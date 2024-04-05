@@ -53,7 +53,9 @@ export type ParserSettingsOptional = {
   optionalColNames: string[];
   reverseTraversal: boolean;
   headerRowsSelector: string | null;
+  headerRowsCellSelector: string;
   bodyRowsSelector: string;
+  bodyRowsCellSelector: string;
 };
 
 export interface ParserSettings extends Partial<ParserSettingsOptional> {

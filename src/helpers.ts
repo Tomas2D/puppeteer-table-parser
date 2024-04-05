@@ -42,9 +42,9 @@ export async function getColumnsInfo(
 
   // Sorted by finding which was first visited
   // is index in which we traverse the table, second is final position
-  const allowedIndexes: Record<string, number> = (
+  const allowedIndexes: Record<number, number> = (
     await headerRow.$$eval(
-      'td,th',
+      settings.headerRowsCellSelector,
       (cells: Element[], newLine: string) => {
         return cells.map((cell) => (cell as HTMLTableCellElement).innerText.split(newLine));
       },
