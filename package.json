@@ -6,7 +6,7 @@
     "puppeteer table parser",
     "parsing html tables"
   ],
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -59,8 +59,8 @@
     "puppeteer": "^24.37.3",
     "tsup": "^7.1.0",
     "typescript": "^5.0.4",
-    "windows-1250": "^3.0.4",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.3",
+    "windows-1250": "^3.0.4"
   },
   "resolutions": {
     "set-value": ">=4.0.1"

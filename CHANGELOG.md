@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="2.3.0"></a>
+## 2.3.0 (2026-02-17)
+
+### Added
+
+- ✨ add excludedColumns functionality [[de81ee6](https://github.com/Tomas2D/puppeteer-table-parser/commit/de81ee6758998654adc86602abdb868f81bbff9d)]
+- ✨ improve types [[1b2e0f6](https://github.com/Tomas2D/puppeteer-table-parser/commit/1b2e0f63ade7f69f78f17104287c9f8adab93725)]
+
+
 <a name="2.2.0"></a>
 ## 2.2.0 (2024-04-05)
 
