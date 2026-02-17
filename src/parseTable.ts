@@ -104,11 +104,8 @@ export function parseTableFactory(settings: FullParserSettings) {
       return [];
     }
 
-    const { indexes, getColumnIndex, getColumnName, missingColNames } = await getColumnsInfo(
-      settings,
-      header.el,
-      extraColsMapper,
-    );
+    const { indexes, getColumnIndex, missingColNames, updateExcludedColumns, getOutputColumnKeys } =
+      await getColumnsInfo(settings, header.el, extraColsMapper);
 
     let parsedRows = await new PipelineExecutor<string[][], string[][]>(
       await getRowsData(table, header.bodyRowsOffset, indexes.allowed),
@@ -124,16 +121,26 @@ export function parseTableFactory(settings: FullParserSettings) {
       parsedRows = groupBy(parsedRows, settings.groupBy, getColumnIndex);
     }
 
+    if (settings.excludedColumns) {
+      const excludedColNames = settings.excludedColumns(parsedRows, getColumnIndex) ?? [];
+      updateExcludedColumns(excludedColNames);
+    }
+
     if (addHeader) {
       const headerRow = getOutputHeaderRow(missingColNames);
       parsedRows.unshift(headerRow);
     }
 
     const rowOutputMapper = settings.rowValuesAsObject
-      ? mappers.asObject(getColumnName)
+      ? mappers.asObject(
+          (() => {
+            const outputColumnKeys = getOutputColumnKeys();
+            return (index) => outputColumnKeys[index];
+          })(),
+        )
       : settings.rowValuesAsArray
-        ? mappers.asArray()
-        : mappers.asCsv(settings.csvSeparator);
+      ? mappers.asArray()
+      : mappers.asCsv(settings.csvSeparator);
 
     return new PipelineExecutor<string[][], ReturnType<typeof rowOutputMapper>[]>(parsedRows)
       .addMap((row) => row.filter((_, index) => !indexes.excluded.includes(index)))

@@ -68,6 +68,7 @@ interface ParserSettings {
   colFilter?: (elText: string[], index: number) => string; // (default: (txt: string) => txt.join(' '))
   colParser?: (value: string, formattedIndex: number, getColumnIndex: GetColumnIndexType) => string; // (default: (txt: string) => txt.trim())
   optionalColNames?: string[]; // (default: [])
+  excludedColumns?: (rows: string[][], getColumnIndex: GetColumnIndexType) => string[]; // (default: undefined)
 };
 ```
 
@@ -82,8 +83,9 @@ interface ParserSettings {
 7. Run `rowTransform` function for each row.
 8. Group results into buckets (`groupBy.cols`) property and pick the aggregated rows.
 9. Add processed row to a temp array result. 
-10. Add `header` column if `withHeader` property is `true`.
-11. Merge partial results and return them.
+10. Run `excludedColumns` and exclude retrieved columns from the rows and the `header`. 
+11. Add `header` row (if `withHeader` property is `true`).
+12. Merge partial results and return them.
 
 ## Examples
 

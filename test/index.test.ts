@@ -4,8 +4,6 @@ import { createServer, getBaseUrl } from './createServer';
 import { Browser, launch, Page } from 'puppeteer';
 import { tableParser, RowValidationPolicy } from '../src';
 
-jest.setTimeout(60 * 1000 * 1000);
-
 describe('Basic parsing', () => {
   let server: Server;
   let browser: Browser;
@@ -14,7 +12,7 @@ describe('Basic parsing', () => {
   beforeAll(async () => {
     server = await createServer();
     browser = await launch({
-      headless: 'new',
+      headless: true,
     });
     page = await browser.newPage();
   });
@@ -137,8 +135,8 @@ describe('Basic parsing', () => {
     `);
   });
 
-  it('Throw error with invalid options', () => {
-    expect(
+  it('Throw error with invalid options', async () => {
+    await expect(
       tableParser(page, {
         selector: 'table',
         asArray: false,
@@ -150,7 +148,7 @@ describe('Basic parsing', () => {
       }),
     ).rejects.toThrowError();
 
-    expect(
+    await expect(
       tableParser(page, {
         selector: 'table',
         // @ts-expect-error intended
@@ -163,7 +161,7 @@ describe('Basic parsing', () => {
       }),
     ).rejects.toThrowError();
 
-    expect(
+    await expect(
       tableParser(page, {
         selector: 'table',
         rowValuesAsObject: false,
@@ -176,8 +174,8 @@ describe('Basic parsing', () => {
     ).rejects.toThrowError();
   });
 
-  it('Throw error when specified optional column which does not exists', () => {
-    expect(
+  it('Throw error when specified optional column which does not exists', async () => {
+    await expect(
       tableParser(page, {
         selector: 'table',
         allowedColNames: {
@@ -552,5 +550,59 @@ describe('Basic parsing', () => {
     expect(data).toBeInstanceOf(Array);
     expect(data.length).toBe(1);
     expect(data[0]).toBe('name,age');
+  });
+
+  it('Handles non-text elements', async () => {
+    await page.goto(`${getBaseUrl()}/3.html`);
+
+    const data = await tableParser(page, {
+      selector: '#table-overview',
+      asArray: false,
+      allowedColNames: {
+        'A': 'A',
+        '': 'B',
+        'C': 'C',
+      },
+      colParser: (value, x) => {
+        console.info({ value, x });
+        return value.trim();
+      },
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "A;B;C
+      A1;B1;C1
+      A1;;C1"
+    `);
+  });
+
+  it('Exclude columns', async () => {
+    await page.goto(`${getBaseUrl()}/1.html`);
+
+    const data = await tableParser(page, {
+      selector: 'table',
+      allowedColNames: {
+        'Car Name': 'car',
+        'Horse Powers': 'hp',
+        'Manufacture Year': 'year',
+      },
+      optionalColNames: ['year'],
+      rowValidationPolicy: RowValidationPolicy.EXACT_MATCH,
+      colParser: (value) => value.trim(),
+      excludedColumns: (rows, getColumnIndex) => {
+        expect(rows.length).toBe(4);
+        expect(getColumnIndex('car')).toBe(0);
+        expect(getColumnIndex('hp')).toBe(1);
+        expect(getColumnIndex('year')).toBe(2);
+        return ['year'];
+      },
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "car;hp
+      Audi S5;332
+      Alfa Romeo Giulia;500
+      BMW X3;215
+      Skoda Octavia;120"`);
   });
 });

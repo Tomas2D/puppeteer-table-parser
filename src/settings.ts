@@ -28,6 +28,7 @@ export const defaultSettings: ParserSettingsOptional = {
   headerRowsCellSelector: 'td,th',
   bodyRowsSelector: 'tbody tr',
   bodyRowsCellSelector: 'td',
+  excludedColumns: undefined,
 };
 
 export function preprocessSettings(options: ParserSettings): FullParserSettings {

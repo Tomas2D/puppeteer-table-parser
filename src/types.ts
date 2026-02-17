@@ -56,6 +56,7 @@ export type ParserSettingsOptional = {
   headerRowsCellSelector: string;
   bodyRowsSelector: string;
   bodyRowsCellSelector: string;
+  excludedColumns: (rows: string[][], getColumnIndex: GetColumnIndexType) => string[];
 };
 
 export interface ParserSettings extends Partial<ParserSettingsOptional> {

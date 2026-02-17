@@ -77,7 +77,10 @@ export async function getColumnsInfo(
   const excludedKeyIndexes: number[] = [];
   const colKeyToIndexWithExcluded = new Map<string, number>();
   const colIndexToKeyWithExcluded = new Map<number, string>();
-  extraColsMapper(allowedColNamesKeys, 'colName').forEach((key, index) => {
+
+  const allColumnKeys = extraColsMapper(allowedColNamesKeys, 'colName');
+
+  allColumnKeys.forEach((key, index) => {
     colKeyToIndexWithExcluded.set(key, index);
     colIndexToKeyWithExcluded.set(index, key);
 
@@ -99,13 +102,19 @@ export async function getColumnsInfo(
     return index;
   };
 
-  const getColumnName = (colIndex: number) => {
-    const value = colIndexToKeyWithExcluded.get(colIndex);
-    if (value === undefined) {
-      throw new InvalidColumnError(`Column with index '${colIndex}' does not exist!`);
-    }
+  const updateExcludedColumns = (colNames: string[]) => {
+    colNames.forEach((colName) => {
+      const index = getColumnIndex(colName);
+      if (!excludedKeyIndexes.includes(index)) {
+        excludedKeyIndexes.push(index);
+      }
+    });
+  };
 
-    return value;
+  const getOutputColumnKeys = () => {
+    return allColumnKeys
+      .filter((_, index) => !excludedKeyIndexes.includes(index))
+      .map((colName) => settings.allowedColNames[colName] || colName);
   };
 
   return {
@@ -115,7 +124,8 @@ export async function getColumnsInfo(
     },
     missingColNames: Object.values(missingColNames),
     getColumnIndex,
-    getColumnName,
+    updateExcludedColumns,
+    getOutputColumnKeys,
   };
 }
 
