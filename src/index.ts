@@ -68,7 +68,7 @@ export async function tableParser<T extends string, U extends string, V extends 
     rowValidator?: RowValidatorFn<T | U>;
     temporaryColNames?: Array<V>;
   },
-): Promise<Array<Record<T | U, string>>>;
+): Promise<Array<Record<T & U, string>>>;
 export async function tableParser(
   page: Page,
   options: OmitOrFalsy<ParserSettings, 'asArray' | 'rowValuesAsObject' | 'rowValuesAsArray'>,
