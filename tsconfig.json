@@ -8,6 +8,7 @@
       "dom",
       "dom.iterable"
     ],
+    "types": ["node", "vitest/globals"],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
