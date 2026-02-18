@@ -13,6 +13,7 @@ describe('Basic parsing', () => {
     server = await createServer();
     browser = await launch({
       headless: true,
+      args: ['--no-sandbox'],
     });
     page = await browser.newPage();
   });
