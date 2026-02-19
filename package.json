@@ -57,7 +57,7 @@
     "lint-staged": "^14.0.0",
     "prettier": "2.8.8",
     "puppeteer": "^24.37.3",
-    "tsup": "^7.1.0",
+    "tsup": "^8.5.1",
     "typescript": "^5.0.4",
     "vitest": "^3.0.3",
     "windows-1250": "^3.0.4"
