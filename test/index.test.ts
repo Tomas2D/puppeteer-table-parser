@@ -606,4 +606,30 @@ describe('Basic parsing', () => {
       BMW X3;215
       Skoda Octavia;120"`);
   });
+
+  it('Parse non-table table no filters', async () => {
+    await page.goto(`${getBaseUrl()}/non-table-table.html`);
+
+    const data = await tableParser(page, {
+      selector: 'sdps-table',
+      headerRowsSelector: 'sdps-table-header-row',
+      headerRowsCellSelector: 'sdps-table-header',
+      bodyRowsSelector: 'sdps-table-row',
+      bodyRowsCellSelector: 'sdps-table-cell',
+      allowedColNames: {
+        'Car Name': 'car',
+        'Horse Powers': 'hp',
+        'Manufacture Year': 'year',
+      },
+    });
+
+    expect(data).toMatchInlineSnapshot(`
+      "car;hp;year
+      Audi S5;332;2015
+      Alfa Romeo Giulia;500;2020
+      BMW X3;215;2017
+      Skoda Octavia;120;2012"
+    `);
+  });
+
 });
