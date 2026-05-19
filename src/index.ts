@@ -24,7 +24,7 @@ async function retrieveTables(page: Page, selector: string) {
     const elType: string = elementsTypes[index];
     if (elType !== 'TABLE') {
       console.warn('Invalid selector! Element is not a table!');
-      return false;
+      return true;
     }
     return true;
   });
