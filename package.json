@@ -59,7 +59,7 @@
     "puppeteer": "^24.37.3",
     "tsup": "^7.1.0",
     "typescript": "^5.0.4",
-    "vitest": "^3.0.3",
+    "vitest": "^4.1.0",
     "windows-1250": "^3.0.4"
   },
   "resolutions": {
