@@ -16,18 +16,16 @@ async function retrieveTables(page: Page, selector: string) {
   await page.waitForSelector(selector);
 
   const elements: ElementHandle[] = await page.$$(selector);
-  const elementsTypes: string[] = await Promise.all(
-    elements.map((elHandle) => elHandle.evaluate((el) => el.tagName)),
+
+  const hasNonTableElements = await page.$$eval(selector, (els) =>
+    els.some((el) => el.tagName !== 'TABLE'),
   );
 
-  return elements.filter((el, index) => {
-    const elType: string = elementsTypes[index];
-    if (elType !== 'TABLE') {
-      console.warn('Invalid selector! Element is not a table!');
-      return true;
-    }
-    return true;
-  });
+  if (hasNonTableElements) {
+    console.warn('Warning: Provided selector matches non-standard table elements.');
+  }
+
+  return elements;
 }
 
 export async function tableParser(
