@@ -1,5 +1,27 @@
 # Changelog
 
+<a name="2.3.1"></a>
+## 2.3.1 (2026-07-08)
+
+### Miscellaneous
+
+-  Remove block for non-table table ([#486](https://github.com/Tomas2D/puppeteer-table-parser/issues/486)) [[bcdfe2e](https://github.com/Tomas2D/puppeteer-table-parser/commit/bcdfe2eb3e3b56e6e827827ec37afd4ee6b90d90)]
+-  Merge pull request [#492](https://github.com/Tomas2D/puppeteer-table-parser/issues/492) from Tomas2D/feat/cell-text-source [[8501ad1](https://github.com/Tomas2D/puppeteer-table-parser/commit/8501ad1c6a652ae219e09c6764c722483d8f3f2a)]
+-  Merge pull request [#491](https://github.com/Tomas2D/puppeteer-table-parser/issues/491) from Tomas2D/dependabot/npm_and_yarn/js-yaml-4.3.0 [[f693b04](https://github.com/Tomas2D/puppeteer-table-parser/commit/f693b04e68730b3710b6ad0de51bcdc2d287ffe8)]
+-  feat: add opt-in cellTextSource for faster large-table parsing [[82d8fea](https://github.com/Tomas2D/puppeteer-table-parser/commit/82d8fea8505ab95047e0beb658320471378eee74)]
+-  build(deps): bump js-yaml from 4.1.0 to 4.3.0 [[48eefb0](https://github.com/Tomas2D/puppeteer-table-parser/commit/48eefb0e22c7d653b0bff26533f793b563cb75d8)]
+-  Merge pull request [#483](https://github.com/Tomas2D/puppeteer-table-parser/issues/483) from Tomas2D/dependabot/npm_and_yarn/basic-ftp-5.2.2 [[f8ce90a](https://github.com/Tomas2D/puppeteer-table-parser/commit/f8ce90aba113e824941deb3aaa1ed33678ebe3e1)]
+-  build(deps): bump basic-ftp from 5.2.0 to 5.2.2 [[39709c8](https://github.com/Tomas2D/puppeteer-table-parser/commit/39709c8a2c3c5f765f529c0c76ef2a27b0718cb8)]
+-  Merge pull request [#480](https://github.com/Tomas2D/puppeteer-table-parser/issues/480) from Tomas2D/dependabot/npm_and_yarn/vite-6.4.2 [[7cf3d56](https://github.com/Tomas2D/puppeteer-table-parser/commit/7cf3d5699dba741f58dec6219c35e8c61495d929)]
+-  build(deps): bump vite from 6.0.11 to 6.4.2 [[f796562](https://github.com/Tomas2D/puppeteer-table-parser/commit/f796562577f48c4e9f77fc3cf156cd37d2a44f84)]
+-  Merge pull request [#476](https://github.com/Tomas2D/puppeteer-table-parser/issues/476) from Tomas2D/dependabot/npm_and_yarn/basic-ftp-5.2.0 [[9ee3a49](https://github.com/Tomas2D/puppeteer-table-parser/commit/9ee3a497eaeaba4ee7ff6d43d3c27374d7622a8f)]
+-  Merge pull request [#477](https://github.com/Tomas2D/puppeteer-table-parser/issues/477) from Tomas2D/dependabot/npm_and_yarn/minimatch-3.1.5 [[5ba318d](https://github.com/Tomas2D/puppeteer-table-parser/commit/5ba318d17ca0b2612a5ba4bccd14ed71d2e0d576)]
+-  build(deps): bump minimatch from 3.1.2 to 3.1.5 [[4f42195](https://github.com/Tomas2D/puppeteer-table-parser/commit/4f42195d5f514854ffebac2a37359425b4fe497e)]
+-  build(deps): bump basic-ftp from 5.0.3 to 5.2.0 [[a3c12e4](https://github.com/Tomas2D/puppeteer-table-parser/commit/a3c12e42aab32a6050db0fcaf14bb4ff9c2c7b23)]
+-  test: update flags [[b199a2d](https://github.com/Tomas2D/puppeteer-table-parser/commit/b199a2d66f282e89d99d16c24f14e0f6337561ef)]
+-  ci: bump nodejs version [[405d782](https://github.com/Tomas2D/puppeteer-table-parser/commit/405d78216ef733014a6054883889b9564fc7755c)]
+
+
 <a name="2.3.0"></a>
 ## 2.3.0 (2026-02-17)
 
