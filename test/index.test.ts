@@ -650,7 +650,8 @@ describe('Basic parsing', () => {
       Audi S5;332
       Alfa Romeo Giulia;500
       BMW X3;215
-      Skoda Octavia;120"`);
+      Skoda Octavia;120"
+    `);
   });
 
   it('Parse non-table table no filters', async () => {
