@@ -96,8 +96,8 @@ export function parseTableFactory(settings: FullParserSettings) {
             })
             .map(([cell]): string =>
               useTextContent
-                ? cell?.textContent ?? (cell as HTMLElement)?.innerText
-                : (cell as HTMLElement)?.innerText ?? cell?.textContent,
+                ? (cell?.textContent ?? (cell as HTMLElement)?.innerText)
+                : ((cell as HTMLElement)?.innerText ?? cell?.textContent),
             ),
         );
       },
@@ -155,8 +155,8 @@ export function parseTableFactory(settings: FullParserSettings) {
           })(),
         )
       : settings.rowValuesAsArray
-      ? mappers.asArray()
-      : mappers.asCsv(settings.csvSeparator);
+        ? mappers.asArray()
+        : mappers.asCsv(settings.csvSeparator);
 
     return new PipelineExecutor<string[][], ReturnType<typeof rowOutputMapper>[]>(parsedRows)
       .addMap((row) => row.filter((_, index) => !indexes.excluded.includes(index)))
